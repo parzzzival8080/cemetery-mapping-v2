@@ -1,1 +1,1 @@
-# doctor-tracker
+#lara6vue-template
