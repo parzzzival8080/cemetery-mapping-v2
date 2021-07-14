@@ -18,9 +18,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password',
-        'role',
-        'google_user_id'
+        'username', 'password', 'role',
+        // 'fcm_token'
     ];
 
     /**
@@ -30,6 +29,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        // 'fcm_token'
     ];
 
     /**
@@ -39,5 +39,15 @@ class User extends Authenticatable
         if($value != null && $value != '') {
             $this->attributes['password'] = Hash::make($value);
         }
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class);
     }
 }
