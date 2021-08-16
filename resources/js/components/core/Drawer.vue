@@ -3,9 +3,8 @@
         id="app-drawer"
         v-model="inputValue"
         app
-        dark
         floating
-        persistent
+        permanent
         mobile-breakpoint="991"
         width="260"
     >
@@ -14,7 +13,7 @@
                 v-for="(link, i) in links"
                 :key="i"
                 :to="link.to"
-                :active-class="color"
+                active-class="primary"
                 v-if="userPermission(link.module)"
                 class="v-list-item"
             >
@@ -31,7 +30,7 @@
                         <v-icon>mdi-exit-to-app</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title class="subtitle-2 font-weight-bold"
+                        <v-list-item-title class="subtitle-2"
                             >Logout</v-list-item-title
                         >
                     </v-list-item-content>
@@ -56,77 +55,20 @@ export default {
         logo: "favicon.ico",
         links: [
             {
-                to: `/${
-                    "Administrator" == "Administrator"
-                        ? "admin"
-                        : "establishment"
-                }/user-profile`,
-                icon: "mdi-account",
-                text: "User Profile",
-                module: "profile"
-            },
-            {
-                to: `/${
-                    "Administrator" == "Administrator"
-                        ? "admin"
-                        : "establishment"
-                }/dashboard`,
+                to: "/dashboard",
                 icon: "mdi-view-dashboard",
                 text: "Dashboard",
                 module: "dashboard"
             },
             {
-                to: `/${
-                    "Administrator" == "Administrator"
-                        ? "admin"
-                        : "establishment"
-                }/table-list`,
-                icon: "mdi-clipboard-outline",
-                text: "Table List",
-                module: "orders"
-            },
-            {
-                to: `/${
-                    "Administrator" == "Administrator"
-                        ? "admin"
-                        : "establishment"
-                }/typography`,
-                icon: "mdi-format-font",
-                text: "Typography",
-                module: "typo"
-            },
-            {
-                to: `/${
-                    "Administrator" == "Administrator"
-                        ? "admin"
-                        : "establishment"
-                }/icons`,
-                icon: "mdi-chart-bubble",
-                text: "Icons",
-                module: "icons"
-            },
-            {
-                to: `/${
-                    "Administrator" == "Administrator"
-                        ? "admin"
-                        : "establishment"
-                }/maps`,
-                icon: "mdi-map-marker",
-                text: "Maps",
-                module: "map"
-            },
-            {
-                to: `/${
-                    "Administrator" == "Administrator"
-                        ? "admin"
-                        : "establishment"
-                }/notifications`,
-                icon: "mdi-bell",
-                text: "Notifications",
-                module: "notif"
+                to: "/admin/hospitals",
+                icon: "mdi-hospital-building",
+                text: "Hospitals",
+                module: "hospital"
             }
         ],
-        userRole: "Administrator"
+        // userRole: sessionStorage.getItem("user-type"),
+        userRole: "ADMINISTRATOR"
     }),
     computed: {
         ...mapState("app", ["color"]),
@@ -148,23 +90,15 @@ export default {
         userPermission(module) {
             var modules = {
                 dashboard: true,
-                profile: true,
-                orders: true,
-                typo: true,
-                icon: true,
-                map: true,
-                notif: true
+                hospital: true
             };
             var permissions = {
-                Administrator: {
+                ADMINISTRATOR: {
                     ...modules
-                },
-                Establishment: {
-                    ...modules,
-                    typo: false,
-                    profile: false,
-                    map: false
                 }
+                // SUBSCRIBER: {
+                //     ...modules
+                // }
             };
             return permissions[this.userRole][module];
         },
@@ -200,6 +134,10 @@ export default {
             margin-top: auto;
             margin-bottom: 17px;
         }
+    }
+
+    .v-list .v-list-item--active {
+        color: white !important;
     }
 }
 </style>

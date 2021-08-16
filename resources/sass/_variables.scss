@@ -1,7 +1,7 @@
 
 // Typography
-$body-font-family: 'Poppins', sans-serif !important;
-$heading-font-family:'Poppins', sans-serif !important;
+$body-font-family: 'Rubik', sans-serif !important;
+$heading-font-family:'Rubik', sans-serif !important;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
@@ -22,3 +22,39 @@ $headings: (
 // $green: #38c172;
 // $teal: #4dc0b5;
 // $cyan: #6cb2eb;
+
+$primary: #ffb03b;
+$secondary: #FC6011;
+
+
+.wrap{
+  perspective-origin: 50% 50%;
+}
+
+.svg{
+  stroke:$primary;
+  position:absolute;
+  bottom: -100vh;
+  transform-style: preserve-3d;
+}
+
+$total: 10;
+@for $i from 1 through $total {
+  $scale:random(2) - .4;
+
+  .svg:nth-child(#{$i}){
+    left:random(120) * 1% - 20;
+    animation: raise#{$i} 6 + random(15) +s linear infinite;
+    animation-delay:random(5) - 5 + s;
+    transform: scale(.3 * $i - .6) rotate(random(360) + deg);
+    z-index: $i - 7;
+    filter: blur($i - 6 + px);
+
+    @keyframes raise#{$i} {
+      to{
+       bottom:150vh;
+       transform: scale(.3 * $i - .6) rotate(random(360) + deg);
+      }
+    }
+  }
+}
