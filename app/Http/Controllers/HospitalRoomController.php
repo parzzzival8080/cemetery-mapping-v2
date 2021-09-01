@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\HospitalRoom;
+use App\Http\Requests\HospitalRoomRequest\DestroyHospitalRoomRequest;
+use App\Http\Requests\HospitalRoomRequest\IndexHospitalRoomRequest;
+use App\Http\Requests\HospitalRoomRequest\ShowHospitalRoomRequest;
+use App\Http\Requests\HospitalRoomRequest\StoreHospitalRoomRequest;
+use App\Http\Requests\HospitalRoomRequest\UpdateHospitalRoomRequest;
+use App\Http\Resources\HospitalResource;
+use App\Http\Resources\HospitalRoomResource;
 use Illuminate\Http\Request;
 
 class HospitalRoomController extends Controller
@@ -11,9 +19,12 @@ class HospitalRoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexHospitalRoomRequest $request)
     {
         //
+        $hospitalRoom = HospitalRoom::all();
+
+        return HospitalRoomResource::collection($hospitalRoom);
     }
 
     /**
@@ -32,9 +43,11 @@ class HospitalRoomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreHospitalRoomRequest $request)
     {
-        //
+        $hospitalRoom = HospitalRoom::create($request->validated());
+
+        return new HospitalRoomResource($hospitalRoom);
     }
 
     /**
@@ -43,9 +56,11 @@ class HospitalRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ShowHospitalRoomRequest $request, int $hospitalRoom)
     {
         //
+        $hospitalRoom = HospitalRoom::findOrFail($hospitalRoom);
+        return new HospitalRoomResource($hospitalRoom);
     }
 
     /**
@@ -66,9 +81,11 @@ class HospitalRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateHospitalRoomRequest $request, int $hospitalRoom)
     {
         //
+        $hospitalRoom = HospitalRoom::findOrFail($hospitalRoom);
+        $hospitalRoom->update($request->validated());
     }
 
     /**
@@ -77,8 +94,12 @@ class HospitalRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyHospitalRoomRequest $request, int $hospitalRoom)
     {
         //
+        $hospitalRoom = HospitalRoom::findOrFail($hospitalRoom);
+        $hospitalRoom->delete();
+
+        return null;
     }
 }

@@ -13,7 +13,7 @@ class UpdateHospitalRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,16 @@ class UpdateHospitalRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'username' => 'required|unique:users,username',
+            'password' => 'required|min:8',
+            'role' => 'required|in:OWNER',
+
+            'name' => 'required|min:8',
+            'number' => 'required|min:8',
+
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'address' => 'required',
         ];
     }
 }

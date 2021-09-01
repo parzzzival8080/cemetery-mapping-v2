@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Hospital;
+use App\HospitalRoom;
+use App\Http\Requests\HospitalRequest\DestroyHospitalRequest;
+use App\Http\Requests\HospitalRequest\IndexHospitalRequest;
+use App\Http\Requests\HospitalRequest\ShowHospitalRequest;
+use App\Http\Requests\HospitalRequest\StoreHospitalRequest;
+use App\Http\Requests\HospitalRequest\UpdateHospitalRequest;
+use App\Http\Resources\HospitalResource;
 use Illuminate\Http\Request;
 
 class HospitalController extends Controller
@@ -11,9 +19,13 @@ class HospitalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexHospitalRequest $request)
     {
         //
+        $hospital = Hospital::all();
+
+        return HospitalResource::collection($hospital);
+
     }
 
     /**
@@ -21,9 +33,11 @@ class HospitalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function store(StoreHospitalRequest $request)
     {
         //
+        $hospital = Hospital::create($request->validate());
+        return new HospitalResource($hospital);
     }
 
     /**
@@ -32,9 +46,11 @@ class HospitalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function show(ShowHospitalRequest $request, int $hospital)
     {
-        //
+        $hospital = Hospital::findOrFail($hospital);
+
+        return new HospitalResource($hospital);
     }
 
     /**
@@ -43,10 +59,7 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -66,9 +79,12 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateHospitalRequest $request, int $hospital)
     {
-        //
+        $hospital = Hospital::findOrFail($hospital);
+        $hospital->update($request->validated());
+
+        return new HospitalResource($hospital);
     }
 
     /**
@@ -77,8 +93,12 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyHospitalRequest $request, int $hospital)
     {
         //
+        $hospital = Hospital::findOrFail($hospital);
+        $hospital->delete();
+
+        return null;
     }
 }

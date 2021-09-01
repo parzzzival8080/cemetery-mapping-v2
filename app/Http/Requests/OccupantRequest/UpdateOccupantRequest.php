@@ -24,7 +24,9 @@ class UpdateOccupantRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'string|required',
+            'address' => 'string',
+            'type' => 'string'
         ];
     }
 }

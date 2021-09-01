@@ -13,7 +13,7 @@ class StoreOccupantRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreOccupantRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'string|required',
+            'address' => 'string',
+            'type' => 'string'
         ];
     }
 }

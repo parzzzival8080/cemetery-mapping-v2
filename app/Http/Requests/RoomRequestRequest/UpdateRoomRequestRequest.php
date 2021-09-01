@@ -24,7 +24,14 @@ class UpdateRoomRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'hospital_room_id' => [
+                'required',
+                'exists:hospital_rooms,id',
+            ],
+            'occupant_id' => [
+                'required',
+                'exists:hospitals,id',
+            ],
         ];
     }
 }

@@ -30,6 +30,13 @@ Route::group(['middleware' => 'forceJsonResponse'], function () {
 
             Route::get('/user', function() { return request()->user(); });
             Route::put('/user/change-password', 'UserController@changePassword');
+
+            Route::apiResource('hospitals', 'HospitalController');
+            Route::apiResource('occupants', 'OccupantController');
+            Route::apiResource('hospitalrooms', 'OccupantController');
+
+
+
         });
     });
 });

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\RoomRequestRequest;
+namespace App\Http\Requests\HospitalRoomRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexRoomRequestRequest extends FormRequest
+class ShowHospitalRoomRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class IndexRoomRequestRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**

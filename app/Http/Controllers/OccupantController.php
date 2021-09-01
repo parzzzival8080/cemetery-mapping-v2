@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OccupantRequest\DestroyOccupantRequest;
+use App\Http\Requests\OccupantRequest\IndexOccupantRequest;
+use App\Http\Requests\OccupantRequest\ShowOccupantRequest;
+use App\Http\Requests\OccupantRequest\StoreOccupantRequest;
+use App\Http\Requests\OccupantRequest\UpdateOccupantRequest;
+use App\Http\Resources\OccupantResource;
+use App\Occupant;
 use Illuminate\Http\Request;
 
 class OccupantController extends Controller
@@ -11,9 +18,11 @@ class OccupantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexOccupantRequest $request)
     {
         //
+        $occupant = Occupant::all();
+        return OccupantResource::collection($occupant);
     }
 
     /**
@@ -32,9 +41,12 @@ class OccupantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOccupantRequest $request)
     {
         //
+        $occupant = Occupant::create($request->validated());
+
+        return new OccupantResource($occupant);
     }
 
     /**
@@ -43,9 +55,11 @@ class OccupantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ShowOccupantRequest $request, int $occupant)
     {
         //
+        $occupant = Occupant::findOrFail($occupant);
+        return new OccupantResource($occupant);
     }
 
     /**
@@ -66,9 +80,13 @@ class OccupantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateOccupantRequest $request, int $occupant)
     {
         //
+        $occupant = Occupant::findOrFail($occupant);
+        $occupant->update($request->validated());
+
+        return new OccupantResource($occupant);
     }
 
     /**
@@ -77,8 +95,12 @@ class OccupantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyOccupantRequest $request, int $occupant)
     {
         //
+        $occupant = Occupant::findOrFail($occupant);
+        $occupant->delete();
+
+        return null;
     }
 }

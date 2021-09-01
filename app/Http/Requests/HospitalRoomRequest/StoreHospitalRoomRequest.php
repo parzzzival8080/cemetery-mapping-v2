@@ -13,7 +13,7 @@ class StoreHospitalRoomRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreHospitalRoomRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'hospital_id' => [
+                'required',
+                'exists:hospitals,id',
+            ],
+            'room_no' => 'string|required',
+            'status' => 'nullable'
         ];
     }
 }
