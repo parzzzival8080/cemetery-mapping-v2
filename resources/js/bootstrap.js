@@ -34,17 +34,17 @@ import Echo from "laravel-echo";
 
 window.Pusher = require('pusher-js');
 
-window.Echo = new Echo({
-    auth: {
-        headers: {
-            Authorization: 'Bearer ' + sessionStorage.getItem('user-token'),
-        }
-    },
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    encrypted: true,
-});
+// window.Echo = new Echo({
+//     auth: {
+//         headers: {
+//             Authorization: 'Bearer ' + sessionStorage.getItem('user-token'),
+//         }
+//     },
+//     broadcaster: 'pusher',
+//     key: process.env.MIX_PUSHER_APP_KEY,
+//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     encrypted: true,
+// });
 
 // import Echo from 'laravel-echo';
 

@@ -7,9 +7,9 @@
                 indeterminate
             ></v-progress-circular>
         </v-overlay>
-        <core-filter />
+        <!-- <core-filter /> -->
 
-        <core-toolbar />
+        <!-- <core-toolbar /> -->
 
         <core-drawer />
 
@@ -22,6 +22,15 @@ export default {
     data: () => ({
         overlay: false
     })
+    // beforeRouteEnter(to, from, next) {
+    //     if (
+    //         sessionStorage.getItem("user-type") != "ADMINISTRATOR" &&
+    //         sessionStorage.getItem("user-type") != "SUBSCRIBER"
+    //     ) {
+    //         return next("/");
+    //     }
+    //     next();
+    // }
 };
 </script>
 

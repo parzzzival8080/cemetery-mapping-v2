@@ -1,13 +1,10 @@
 import Scaffold from "../components/views/Scaffold.vue";
 import Landing from "../components/views/Landing.vue";
 import Signin from "../components/views/Signin.vue";
+import Signup from "../components/views/Signup.vue";
 import Dashboard from "../components/views/Dashboard.vue";
-import UserProfile from "../components/views/UserProfile.vue";
-import TableList from "../components/views/TableList.vue";
-import Typography from "../components/views/Typography.vue";
-import Maps from "../components/views/Maps.vue";
-import Icons from "../components/views/Icons.vue";
-import Notifications from "../components/views/Notifications.vue";
+import Hospitals from "../components/views/Hospital.vue";
+import Users from "../components/views/User.vue";
 
 // Pusher Component
 import Pusher from '../components/views/Pusher.vue';
@@ -16,33 +13,23 @@ import Pusher from '../components/views/Pusher.vue';
 let adminRoutes = {
   path: "/admin",
   component: Scaffold,
-  redirect: "/admin/dashboard",
+  redirect: "/admin/hospitals",
   name: "Components",
   children: [
-    { path: "dashboard", name: "Dashboard", components: { default: Dashboard }},
-    { path: "user-profile", name: "UserProfile", components: { default: UserProfile }},
-    { path: "table-list", name: "TableList", components: { default: TableList }},
-    { path: "typography", name: "Typography", components: { default: Typography }},
-    { path: "maps", name: "Maps", components: { default: Maps }},
-    { path: "icons", name: "Icons", components: { default: Icons }},
-    { path: "notifications", name: "Notifications", components: { default: Notifications }},
+    // { path: "purchase-histories", name: "Purchase Histories", components: { default: PurchaseHistory }},
+    { path: "hospitals", name: "Hospitals", components: { default: Hospitals }},
   ]
 };
 
-//Establishment Routes
-let establishmentRoutes = {
-    path: "/establishment",
+//Subscriber Routes
+let subsriberRoutes = {
+    path: "/",
     component: Scaffold,
-    redirect: "/establishment/dashboard",
+    redirect: "/dashboard",
     name: "Components",
     children: [
-      { path: "dashboard", name: "Dashboard", components: { default: Dashboard }},
-      { path: "user-profile", name: "UserProfile", components: { default: UserProfile }},
-      { path: "table-list", name: "TableList", components: { default: TableList }},
-      { path: "typography", name: "Typography", components: { default: Typography }},
-      { path: "maps", name: "Maps", components: { default: Maps }},
-      { path: "icons", name: "Icons", components: { default: Icons }},
-      { path: "notifications", name: "Notifications", components: { default: Notifications }},
+      { path: "/dashboard", name: "Dashboard", components: { default: Dashboard }},
+    //   { path: "/contacts", name: "Contacts", components: { default: Contact }},
     ]
   };
 
@@ -53,11 +40,17 @@ const routes = [
     component: Landing,
   },
   {
-    path: "/signin",
+    path: "/login",
     name: "Signin",
     component: Signin,
   },
+  {
+    path: "/register",
+    name: "Signup",
+    component: Signup,
+  },
   adminRoutes,
+  subsriberRoutes,
 
   // Sample Route For Pusher
   {

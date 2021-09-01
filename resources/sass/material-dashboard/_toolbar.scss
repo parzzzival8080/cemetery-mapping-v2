@@ -67,7 +67,7 @@
 
 @media all and (max-width: 550px) {
   .v-toolbar__content {
-    flex-direction: column;
+    flex-direction: row;
     height: auto !important;
 
     .v-toolbar-title {
