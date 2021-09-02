@@ -46,7 +46,7 @@
                 'px-15': $vuetify.breakpoint.mdAndUp
             }"
         >
-            <v-toolbar-title>
+            <v-toolbar-title class="primary--text">
                 HOSPITAL TRACKER
             </v-toolbar-title>
             <v-spacer />
@@ -70,7 +70,7 @@
                     id="no-background-hover"
                     v-else
                     text
-                    to="/#hero"
+                    to="/"
                 >
                     <span class="mr-2">HOME</span>
                 </v-btn>

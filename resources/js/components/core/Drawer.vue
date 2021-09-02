@@ -55,7 +55,7 @@ export default {
         logo: "favicon.ico",
         links: [
             {
-                to: "/dashboard",
+                to: "/admin/dashboard",
                 icon: "mdi-view-dashboard",
                 text: "Dashboard",
                 module: "dashboard"
@@ -65,6 +65,18 @@ export default {
                 icon: "mdi-hospital-building",
                 text: "Hospitals",
                 module: "hospital"
+            },
+            {
+                to: "/admin/hospital-rooms",
+                icon: "mdi-bed-empty",
+                text: "Rooms",
+                module: "room"
+            },
+            {
+                to: "/admin/users",
+                icon: "mdi-account-circle",
+                text: "Users",
+                module: "user"
             }
         ],
         // userRole: sessionStorage.getItem("user-type"),
@@ -90,7 +102,9 @@ export default {
         userPermission(module) {
             var modules = {
                 dashboard: true,
-                hospital: true
+                hospital: true,
+                user: true,
+                room: true
             };
             var permissions = {
                 ADMINISTRATOR: {

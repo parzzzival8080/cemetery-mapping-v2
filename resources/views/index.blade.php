@@ -11,7 +11,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <!-- Bootstrap icons-->
         <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Rubik:100,300,400,500,700,900,300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700,900,300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
         <!-- Script -->
 
