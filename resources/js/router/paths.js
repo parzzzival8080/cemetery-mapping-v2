@@ -1,10 +1,13 @@
-import Scaffold from "../components/views/Scaffold.vue";
 import Landing from "../components/views/Landing.vue";
 import Signin from "../components/views/Signin.vue";
 import Signup from "../components/views/Signup.vue";
-import Dashboard from "../components/views/Dashboard.vue";
-import Hospitals from "../components/views/Hospital.vue";
-import Users from "../components/views/User.vue";
+
+
+import Scaffold from "../components/views/home/Scaffold.vue";
+import Dashboard from "../components/views/home/Dashboard.vue";
+import Hospitals from "../components/views/home/Hospital.vue";
+import Rooms from "../components/views/home/Room.vue";
+import Users from "../components/views/home/User.vue";
 
 // Pusher Component
 import Pusher from '../components/views/Pusher.vue';
@@ -17,7 +20,10 @@ let adminRoutes = {
   name: "Components",
   children: [
     // { path: "purchase-histories", name: "Purchase Histories", components: { default: PurchaseHistory }},
+    { path: "dashboards", name: "Dashboard", components: { default: Dashboard }},
     { path: "hospitals", name: "Hospitals", components: { default: Hospitals }},
+    { path: "hospital-rooms", name: "Rooms", components: { default: Rooms }},
+    { path: "users", name: "Users", components: { default: Users }},
   ]
 };
 
@@ -50,7 +56,7 @@ const routes = [
     component: Signup,
   },
   adminRoutes,
-  subsriberRoutes,
+//   subsriberRoutes,
 
   // Sample Route For Pusher
   {
