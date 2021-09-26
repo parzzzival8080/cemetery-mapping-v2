@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoomRequestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,8 +36,11 @@ Route::group(['middleware' => 'forceJsonResponse'], function () {
             Route::apiResource('occupants', 'OccupantController');
             Route::apiResource('hospitalrooms', 'OccupantController');
 
+            // Route::apiResource();
 
-
-        });
+        }
+    );
+            Route::get('nearbyhospitals', 'NearestHospitalController@nearbyHospital');
+            Route::apiResource('roomrequests', 'RoomRequestController');
     });
 });

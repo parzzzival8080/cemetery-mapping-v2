@@ -14,6 +14,7 @@ class RoomRequest extends Model
     'occupant_id', 'room_id', 'created_at', 'updated_at'
    ];
 
+
    public function occupant()
    {
        return $this->belongsTo(Occupant::class);

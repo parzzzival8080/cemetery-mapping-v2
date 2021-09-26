@@ -29,7 +29,7 @@ class StoreHospitalRoomRequest extends FormRequest
                 'exists:hospitals,id',
             ],
             'room_no' => 'string|required',
-            'status' => 'nullable'
+            'status' => 'default:0'
         ];
     }
 }

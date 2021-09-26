@@ -9,6 +9,7 @@ use App\Http\Requests\OccupantRequest\StoreOccupantRequest;
 use App\Http\Requests\OccupantRequest\UpdateOccupantRequest;
 use App\Http\Resources\OccupantResource;
 use App\Occupant;
+use App\RoomRequest;
 use Illuminate\Http\Request;
 
 class OccupantController extends Controller
@@ -21,7 +22,7 @@ class OccupantController extends Controller
     public function index(IndexOccupantRequest $request)
     {
         //
-        $occupant = Occupant::all();
+        $occupant = Occupant::with('rooms')->get();
         return OccupantResource::collection($occupant);
     }
 
@@ -45,7 +46,14 @@ class OccupantController extends Controller
     {
         //
         $occupant = Occupant::create($request->validated());
-
+        $roomRequest = RoomRequest::create(
+            array_merge(
+                [
+                    'room_id' => $request->input('room_id'),
+                    'occupant_id' => $occupant->id
+                ]
+            )
+        );
         return new OccupantResource($occupant);
     }
 

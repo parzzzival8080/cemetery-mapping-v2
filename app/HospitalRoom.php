@@ -23,6 +23,10 @@ class HospitalRoom extends Model
     {
         return $this->belongsTo(Occupant::class);
     }
-}
+
+    public function roomRequests()
+    {
+        return $this->hasMany(RoomRequest::class);
+    }
 }
 

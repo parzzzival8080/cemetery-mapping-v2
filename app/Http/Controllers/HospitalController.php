@@ -95,7 +95,6 @@ class HospitalController extends Controller
      */
     public function destroy(DestroyHospitalRequest $request, int $hospital)
     {
-        //
         $hospital = Hospital::findOrFail($hospital);
         $hospital->delete();
 
