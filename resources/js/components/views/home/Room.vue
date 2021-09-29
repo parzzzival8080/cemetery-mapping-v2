@@ -13,7 +13,7 @@
                     <v-container>
                         <v-data-table
                             :loading="tableLoading"
-                            loading-text="Fetching group list... Please wait"
+                            loading-text="Fetching room list... Please wait"
                             :headers="tableRoomHeaders"
                             :items="tableRooms"
                             :search="tableSearch"
@@ -75,9 +75,20 @@
                         <v-col cols="12" md="6">
                             <v-text-field
                                 type="text"
-                                :error-messages="formRoomErrors.name"
-                                v-model="editedRoomInformation.name"
-                                label="Name"
+                                :error-messages="formRoomErrors.room_no"
+                                v-model="editedRoomInformation.room_no"
+                                label="Room Number"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-select
+                                :items="items"
+                                item-value="id"
+                                item-text="name"
+                                type="text"
+                                :error-messages="formRoomErrors.status"
+                                v-model="editedRoomInformation.status"
+                                label="Status"
                             />
                         </v-col>
                     </v-row>
@@ -111,12 +122,12 @@ export default {
             formRoomListDialog: false,
 
             formRoomErrors: {
-                name: null
+                room_no: null
             },
 
             tableRoomHeaders: [
                 { text: "ID", value: "id" },
-                { text: "Name", value: "name" },
+                { text: "Name", value: "room_no" },
                 {
                     text: "Actions",
                     value: "actions",
@@ -127,8 +138,14 @@ export default {
 
             editedRoomIndex: -1,
             editedRoomInformation: {
-                name: null
+                room_no: null
             },
+
+            items: [
+                { id: 0, name: "UNAVAILABLE" },
+                { id: 1, name: "AVAILABLE" }
+            ],
+
             rules: {
                 required: [
                     v => !!v || "Field is required",
@@ -180,7 +197,7 @@ export default {
             this.tableLoading = true;
             // this.componentOverlay = true;
             // axios
-            //     .get("/api/v1/subscribers/" + this.profileId + "/groups")
+            //     .get("/api/v1/subscribers/" + this.profileId + "/rooms")
             //     .then(response => {
             //         this.tableRooms = response.data;
             //     })
@@ -204,7 +221,7 @@ export default {
 
         createRoom() {
             axios
-                .post("/api/v1/subscribers/" + this.profileId + "/groups", {
+                .post("/api/v1/subscribers/" + this.profileId + "/rooms", {
                     ...this.editedRoomInformation
                 })
                 .then(response => {
@@ -240,7 +257,7 @@ export default {
 
         updateRoom() {
             axios
-                .put("/api/v1/groups/" + this.editedRoomInformation.id, {
+                .put("/api/v1/rooms/" + this.editedRoomInformation.id, {
                     ...this.editedRoomInformation
                 })
                 .then(response => {
@@ -268,7 +285,7 @@ export default {
                 .finally(() => {});
         },
 
-        deleteRoom(group) {
+        deleteRoom(room) {
             swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -281,7 +298,7 @@ export default {
                 .then(result => {
                     if (result.value) {
                         axios
-                            .delete("/api/v1/groups/" + group.id)
+                            .delete("/api/v1/rooms/" + room.id)
                             .then(() => {
                                 this.fetchRooms();
                                 this.closeRoomForm();
@@ -320,7 +337,7 @@ export default {
             this.deleteDialog = false;
             setTimeout(() => {
                 this.formRoomErrors = {
-                    name: null
+                    room_no: null
                 };
                 this.editedRoomInformation = Object.assign(
                     {},

@@ -13,7 +13,7 @@
                     <v-container>
                         <v-data-table
                             :loading="tableLoading"
-                            loading-text="Fetching group list... Please wait"
+                            loading-text="Fetching hospital list... Please wait"
                             :headers="tableHospitalHeaders"
                             :items="tableHospitals"
                             :search="tableSearch"
@@ -75,11 +75,60 @@
                         <v-col cols="12" md="6">
                             <v-text-field
                                 type="text"
+                                :error-messages="formHospitalErrors.username"
+                                v-model="editedHospitalInformation.username"
+                                label="Username"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                v-model="password"
+                                label="Password"
+                                id="password"
+                                name="password"
+                                prepend-icon="fa-lock"
+                                :append-icon="
+                                    visible ? 'mdi-eye-off' : 'mdi-eye'
+                                "
+                                @click:append="visible = !visible"
+                                :rules="rules.passwordRules"
+                                :type="visible ? 'text' : 'password'"
+                                @keydown.enter="login()"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row justify="center">
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                type="text"
                                 :error-messages="formHospitalErrors.name"
                                 v-model="editedHospitalInformation.name"
                                 label="Name"
                             />
                         </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                type="text"
+                                :error-messages="formHospitalErrors.number"
+                                v-model="editedHospitalInformation.number"
+                                label="Number"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row
+                        ><v-col cols="12">
+                            <GmapMap
+                                style="width: 100%; height: 400px;"
+                                :zoom="25"
+                                :center="center"
+                            >
+                                <GmapMarker
+                                    @drag="changed"
+                                    label="★"
+                                    :draggable="true"
+                                    :position="address"
+                                /> </GmapMap
+                        ></v-col>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
@@ -105,6 +154,7 @@ export default {
             tableLoading: true,
             tableSearch: null,
             searchInput: "",
+            visible: false,
             //Hospital
             tableHospitals: [],
             formHospitalDialog: false,
@@ -129,6 +179,11 @@ export default {
             editedHospitalInformation: {
                 name: null
             },
+
+            //Google Maps Variables
+            center: { lat: 6.9214, lng: 122.079 },
+            address: { lat: 6.9214, lng: 122.079 },
+
             rules: {
                 required: [
                     v => !!v || "Field is required",
@@ -145,7 +200,7 @@ export default {
                         (!!v && v.length <= 255) ||
                         "E-mail must not be more than 255 characters"
                 ],
-                contactRules: [
+                hospitalRules: [
                     v => !!v || "Hospital Number is required",
                     v =>
                         (!!v && v.length >= 10) ||
@@ -182,7 +237,7 @@ export default {
             this.tableLoading = true;
             this.componentOverlay = true;
             // axios
-            //     .get("/api/v1/subscribers/" + this.profileId + "/groups")
+            //     .get("/api/v1/subscribers/" + this.profileId + "/hospitals")
             //     .then(response => {
             //         this.tableHospitals = response.data;
             //     })
@@ -206,7 +261,7 @@ export default {
 
         createHospital() {
             axios
-                .post("/api/v1/subscribers/" + this.profileId + "/groups", {
+                .post("/api/v1/subscribers/" + this.profileId + "/hospitals", {
                     ...this.editedHospitalInformation
                 })
                 .then(response => {
@@ -234,15 +289,15 @@ export default {
                 .finally(() => {});
         },
 
-        editHospital(contact) {
-            this.editedHospitalIndex = this.tableHospitals.indexOf(contact);
-            this.editedHospitalInformation = Object.assign({}, contact);
+        editHospital(hospital) {
+            this.editedHospitalIndex = this.tableHospitals.indexOf(hospital);
+            this.editedHospitalInformation = Object.assign({}, hospital);
             this.formHospitalDialog = true;
         },
 
         updateHospital() {
             axios
-                .put("/api/v1/groups/" + this.editedHospitalInformation.id, {
+                .put("/api/v1/hospitals/" + this.editedHospitalInformation.id, {
                     ...this.editedHospitalInformation
                 })
                 .then(response => {
@@ -270,7 +325,7 @@ export default {
                 .finally(() => {});
         },
 
-        deleteHospital(group) {
+        deleteHospital(hospital) {
             swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -283,7 +338,7 @@ export default {
                 .then(result => {
                     if (result.value) {
                         axios
-                            .delete("/api/v1/groups/" + group.id)
+                            .delete("/api/v1/hospitals/" + hospital.id)
                             .then(() => {
                                 this.fetchHospitals();
                                 this.closeHospitalForm();
@@ -330,6 +385,35 @@ export default {
                 );
                 this.editedHospitalIndex = -1;
             }, 500);
+        },
+
+        //trigger everytime marker is drag
+        changed(position) {
+            this.editedEstablishmentInformation.latitude = position.latLng.lat();
+            this.editedEstablishmentInformation.longitude = position.latLng.lng();
+        },
+
+        //Get Address to current location
+        getUserGeolocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    this.setUserGeolocation
+                );
+            } else {
+                window.clearInterval(window.locationInterval);
+                alert("Geolocation is not supported by this browser.");
+            }
+        },
+
+        //Set Address to current location
+        setUserGeolocation(position) {
+            var UserGeolocationLatitude = position.coords.latitude;
+            var UserGeolocationLongitude = position.coords.longitude;
+            this.center = {
+                lat: UserGeolocationLatitude,
+                lng: UserGeolocationLongitude
+            };
+            this.address = this.center;
         }
     }
 };
