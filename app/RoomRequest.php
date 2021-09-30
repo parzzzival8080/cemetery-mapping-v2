@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class RoomRequest extends Model
 {
     protected $fillable = [
-        'occupant_id', 'hostpital_room_id', 'type'
+        'occupant_id', 'hostpital_room_id', 'type', 'status'
    ];
 
    protected $hidden = [
-    'occupant_id', 'room_id', 'created_at', 'updated_at'
+    'occupant_id', 'hostpital_room_id',  'created_at', 'updated_at'
    ];
 
 

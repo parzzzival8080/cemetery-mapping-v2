@@ -20,6 +20,7 @@ class CreateRoomRequestsTable extends Migration
             $table->foreign('hostpital_room_id')->references('id')->on('hospital_rooms')->onDelete('cascade');
             $table->foreign('occupant_id')->references('id')->on('occupants')->onDelete('cascade');
             $table->string('type');
+            $table->string('status');
             $table->timestamps();
         });
     }
