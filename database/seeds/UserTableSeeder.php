@@ -45,7 +45,7 @@ class UserTableSeeder extends Seeder
 
         $hospitalRoom = \App\HospitalRoom::create([
             'hospital_id' => $hospital->id,
-            'name' => 'ROOM 1',
+            'room_no' => 'ROOM 1',
             'status' => 'VACANT',
             'created_at' => now(),
             'updated_at' => now()
@@ -68,13 +68,13 @@ class UserTableSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        $roomRequest = \App\RoomRequest::create([
-            'hospital_room_id' => $hospitalRoom->id,
-            'occupant_id' => $occupant->id,
-            'type' => 'NON_COVID',
-            'status' => 'CONFINED',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // $roomRequest = \App\RoomRequest::create([
+        //     'hospital_room_id' => $hospitalRoom->id,
+        //     'occupant_id' => $occupant->id,
+        //     'type' => 'NON_COVID',
+        //     'status' => 'CONFINED',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
     }
 }

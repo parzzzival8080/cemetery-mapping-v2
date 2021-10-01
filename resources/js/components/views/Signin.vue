@@ -40,13 +40,13 @@
                                                             }}</span>
                                                         </v-alert>
                                                         <v-text-field
-                                                            v-model="email"
-                                                            label="Email"
-                                                            name="email"
-                                                            id="email"
+                                                            v-model="username"
+                                                            label="Username"
+                                                            name="username"
+                                                            id="username"
                                                             prepend-icon="mdi-account"
                                                             :rules="
-                                                                rules.emailRules
+                                                                rules.usernameRules
                                                             "
                                                             type="text"
                                                             @keydown.enter="
@@ -126,7 +126,7 @@ export default {
     data() {
         return {
             loading: false,
-            email: null,
+            username: null,
             password: null,
             visible: false,
             error: null,
@@ -169,7 +169,7 @@ export default {
                 this.loading = true;
                 axios
                     .post("/api/v1/login", {
-                        email: this.email,
+                        username: this.username,
                         password: this.password
                     })
                     .then(response => {
