@@ -42,5 +42,8 @@ Route::group(['middleware' => 'forceJsonResponse'], function () {
     );
             Route::get('nearbyhospitals', 'NearestHospitalController@nearbyHospital');
             Route::apiResource('roomrequests', 'RoomRequestController');
+            Route::apiResource('hospitals', 'HospitalController');
+            Route::apiResource('occupants', 'OccupantController');
+            Route::apiResource('hospitalrooms', 'OccupantController');
     });
 });

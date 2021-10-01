@@ -13,10 +13,11 @@ class AuthController extends Controller
 {
     public function login (LoginRequest $request) {
 
-        $validatedEmail = $request->validated()['email'];
+        dd("power");
+        $validatedUsername = $request->validated()['username'];
         $validatedPassword = $request->validated()['password'];
 
-        $user = User::where('email', $validatedEmail)->firstOrFail();
+        $user = User::where('username', $validatedUsername)->firstOrFail();
 
         if (Hash::check($validatedPassword, $user->password)) {
             $token = $user->createToken('LaravelPasswordGrantClient')->accessToken;
