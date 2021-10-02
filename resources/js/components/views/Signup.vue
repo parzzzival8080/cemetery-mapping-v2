@@ -324,7 +324,7 @@ export default {
                                     "Unauthenticated."
                                 ) {
                                     sessionStorage.clear();
-                                    this.$router.push("/signin");
+                                    this.$router.push("/login");
                                     swal.fire(
                                         "Error!",
                                         error.response.data.message,

@@ -2,12 +2,18 @@ import Landing from "../components/views/Landing.vue";
 import Signin from "../components/views/Signin.vue";
 import Signup from "../components/views/Signup.vue";
 
+//Admin
+import AdminScaffold from "../components/views/admin/Scaffold.vue";
+import AdminDashboard from "../components/views/admin/Dashboard.vue";
+import AdminHospitals from "../components/views/admin/Hospital.vue";
+import AdminRooms from "../components/views/admin/Room.vue";
+import AdminUsers from "../components/views/admin/User.vue";
 
-import Scaffold from "../components/views/home/Scaffold.vue";
-import Dashboard from "../components/views/home/Dashboard.vue";
-import Hospitals from "../components/views/home/Hospital.vue";
-import Rooms from "../components/views/home/Room.vue";
-import Users from "../components/views/home/User.vue";
+//Hospital
+import Scaffold from "../components/views/hospital/Scaffold.vue";
+import HospitalDashboard from "../components/views/hospital/Dashboard.vue";
+import HospitalRooms from "../components/views/hospital/Room.vue";
+import HospitalUsers from "../components/views/hospital/User.vue";
 
 // Pusher Component
 import Pusher from '../components/views/Pusher.vue';
@@ -15,15 +21,29 @@ import Pusher from '../components/views/Pusher.vue';
 //Admin Routes
 let adminRoutes = {
   path: "/admin",
-  component: Scaffold,
+  component: AdminScaffold,
   redirect: "/admin/hospitals",
   name: "Components",
   children: [
     // { path: "purchase-histories", name: "Purchase Histories", components: { default: PurchaseHistory }},
-    { path: "dashboards", name: "Dashboard", components: { default: Dashboard }},
-    { path: "hospitals", name: "Hospitals", components: { default: Hospitals }},
-    { path: "hospital-rooms", name: "Rooms", components: { default: Rooms }},
-    { path: "users", name: "Users", components: { default: Users }},
+    { path: "/admin/dashboard", name: "Dashboard", components: { default: AdminDashboard }},
+    { path: "/admin/hospitals", name: "Hospitals", components: { default: AdminHospitals }},
+    { path: "/admin/hospital-rooms", name: "Rooms", components: { default: AdminRooms }},
+    { path: "/admin/users", name: "Users", components: { default: AdminUsers }},
+  ]
+};
+
+//Admin Routes
+let hospitalRoutes = {
+  path: "/hospital",
+  component: AdminScaffold,
+  redirect: "/hospital/dashboard",
+  name: "Components",
+  children: [
+    // { path: "purchase-histories", name: "Purchase Histories", components: { default: PurchaseHistory }},
+    { path: "/hospital/dashboard", name: "Dashboard", components: { default: HospitalDashboard }},
+    { path: "/hospital/rooms", name: "Rooms", components: { default: HospitalRooms }},
+    { path: "/hospital/users", name: "Users", components: { default: HospitalUsers }},
   ]
 };
 
@@ -34,7 +54,7 @@ let subsriberRoutes = {
     redirect: "/dashboard",
     name: "Components",
     children: [
-      { path: "/dashboard", name: "Dashboard", components: { default: Dashboard }},
+    //   { path: "/dashboard", name: "Dashboard", components: { default: Dashboard }},
     //   { path: "/contacts", name: "Contacts", components: { default: Contact }},
     ]
   };
@@ -56,6 +76,7 @@ const routes = [
     component: Signup,
   },
   adminRoutes,
+  hospitalRoutes,
 //   subsriberRoutes,
 
   // Sample Route For Pusher

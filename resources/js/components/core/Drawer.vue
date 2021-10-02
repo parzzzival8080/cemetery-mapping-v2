@@ -58,7 +58,7 @@ export default {
                 to: "/admin/dashboard",
                 icon: "mdi-view-dashboard",
                 text: "Dashboard",
-                module: "dashboard"
+                module: "adminDashboard"
             },
             {
                 to: "/admin/hospitals",
@@ -70,17 +70,36 @@ export default {
                 to: "/admin/hospital-rooms",
                 icon: "mdi-bed-empty",
                 text: "Rooms",
-                module: "room"
+                module: "adminRoom"
             },
             {
                 to: "/admin/users",
                 icon: "mdi-account-circle",
                 text: "Users",
-                module: "user"
+                module: "adminUser"
+            },
+            //Hospital
+            {
+                to: "/hospital/dashboard",
+                icon: "mdi-view-dashboard",
+                text: "Dashboard",
+                module: "hospitalDashboard"
+            },
+            {
+                to: "/hospital/rooms",
+                icon: "mdi-bed-empty",
+                text: "Rooms",
+                module: "hospitalRoom"
+            },
+            {
+                to: "/hospital/users",
+                icon: "mdi-account-circle",
+                text: "Users",
+                module: "hospitalUser"
             }
         ],
         // userRole: sessionStorage.getItem("user-type"),
-        userRole: "ADMINISTRATOR"
+        userRole: "HOSPITAL"
     }),
     computed: {
         ...mapState("app", ["color"]),
@@ -101,18 +120,29 @@ export default {
         ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
         userPermission(module) {
             var modules = {
-                dashboard: true,
+                adminDashboard: true,
                 hospital: true,
-                user: true,
-                room: true
+                adminUser: true,
+                adminRoom: true,
+                //hospital
+                hospitalDashboard: true,
+                hospitalRoom: true,
+                hospitalUser: true
             };
             var permissions = {
                 ADMINISTRATOR: {
-                    ...modules
+                    ...modules,
+                    hospitalDashboard: false,
+                    hospitalRoom: false,
+                    hospitalUser: false
+                },
+                HOSPITAL: {
+                    ...modules,
+                    adminDashboard: false,
+                    hospital: false,
+                    adminUser: false,
+                    adminRoom: false
                 }
-                // SUBSCRIBER: {
-                //     ...modules
-                // }
             };
             return permissions[this.userRole][module];
         },
@@ -126,12 +156,12 @@ export default {
                         return;
                     }
                     sessionStorage.clear();
-                    this.$router.push("/signin");
+                    this.$router.push("/login");
                 })
                 .catch(error => {
                     if (error.response.data.message == "Unauthenticated.") {
                         sessionStorage.clear();
-                        this.$router.push("/signin");
+                        this.$router.push("/login");
                     }
                 });
         }

@@ -1,122 +1,108 @@
 <template>
     <v-app>
         <views-navigation :color="color" :flat="flat" />
-        <div class="signin">
-            <v-container class="signin-container" fluid fill-height>
-                <v-row justify="center">
-                    <v-col cols="12" md="8">
-                        <v-container
-                            width="80vw"
-                            max-width="100vw"
-                            min-width="400"
-                            fluid
-                        >
-                            <v-row justify="center">
-                                <v-col id="column-1" cols="12" lg="8" class="">
-                                    <v-row justify="center" class="text-center">
-                                        <h1
-                                            class="pa-5 font-weight-bold primary--text"
-                                        >
-                                            Log In
-                                        </h1>
-                                    </v-row>
-                                    <v-row justify="center">
-                                        <v-col cols="12" md="7">
-                                            <v-card
-                                                class="transparent elevation-0"
-                                            >
-                                                <v-form
-                                                    ref="login"
-                                                    lazy-validation
-                                                >
-                                                    <v-card-text>
-                                                        <v-alert
-                                                            small
-                                                            type="error"
-                                                            v-if="error"
-                                                        >
-                                                            <span>{{
-                                                                error
-                                                            }}</span>
-                                                        </v-alert>
-                                                        <v-text-field
-                                                            v-model="username"
-                                                            label="Username"
-                                                            name="username"
-                                                            id="username"
-                                                            prepend-icon="mdi-account"
-                                                            :rules="
-                                                                rules.usernameRules
-                                                            "
-                                                            type="text"
-                                                            @keydown.enter="
-                                                                login()
-                                                            "
-                                                        ></v-text-field>
-                                                        <v-text-field
-                                                            v-model="password"
-                                                            label="Password"
-                                                            id="password"
-                                                            name="password"
-                                                            prepend-icon="fa-lock"
-                                                            :append-icon="
-                                                                visible
-                                                                    ? 'mdi-eye-off'
-                                                                    : 'mdi-eye'
-                                                            "
-                                                            @click:append="
-                                                                visible = !visible
-                                                            "
-                                                            :rules="
-                                                                rules.passwordRules
-                                                            "
-                                                            :type="
-                                                                visible
-                                                                    ? 'text'
-                                                                    : 'password'
-                                                            "
-                                                            @keydown.enter="
-                                                                login()
-                                                            "
-                                                        ></v-text-field>
-                                                    </v-card-text>
-                                                </v-form>
-                                                <v-card-actions>
-                                                    <v-btn
-                                                        color="primary"
-                                                        large
-                                                        block
-                                                        @click="
-                                                            login(),
-                                                                (loader =
-                                                                    'loading')
-                                                        "
-                                                        class="ma-2"
-                                                        :loading="loading"
-                                                        :disabled="loading"
+        <v-container fluid fill-height>
+            <v-row justify="center">
+                <v-col cols="12" md="8">
+                    <v-container
+                        width="80vw"
+                        max-width="100vw"
+                        min-width="400"
+                        fluid
+                    >
+                        <v-row justify="center">
+                            <v-col cols="12" lg="8" class="elevation-4">
+                                <v-row justify="center" class="text-center">
+                                    <h1
+                                        class="pa-5 font-weight-bold primary--text"
+                                    >
+                                        Log In
+                                    </h1>
+                                </v-row>
+                                <v-row justify="center">
+                                    <v-col cols="12" md="7">
+                                        <v-card class="transparent elevation-0">
+                                            <v-form ref="login" lazy-validation>
+                                                <v-card-text>
+                                                    <v-alert
+                                                        small
+                                                        type="error"
+                                                        v-if="error"
                                                     >
-                                                        Sign-in
-                                                        <template v-slot:loader>
-                                                            <span
-                                                                class="custom-loader"
+                                                        <span>{{ error }}</span>
+                                                    </v-alert>
+                                                    <v-text-field
+                                                        v-model="username"
+                                                        label="Username"
+                                                        name="username"
+                                                        id="username"
+                                                        prepend-icon="mdi-account"
+                                                        :rules="
+                                                            rules.usernameRules
+                                                        "
+                                                        type="text"
+                                                        @keydown.enter="login()"
+                                                    ></v-text-field>
+                                                    <v-text-field
+                                                        v-model="password"
+                                                        label="Password"
+                                                        id="password"
+                                                        name="password"
+                                                        prepend-icon="fa-lock"
+                                                        :append-icon="
+                                                            visible
+                                                                ? 'mdi-eye-off'
+                                                                : 'mdi-eye'
+                                                        "
+                                                        @click:append="
+                                                            visible = !visible
+                                                        "
+                                                        :rules="
+                                                            rules.passwordRules
+                                                        "
+                                                        :type="
+                                                            visible
+                                                                ? 'text'
+                                                                : 'password'
+                                                        "
+                                                        @keydown.enter="login()"
+                                                    ></v-text-field>
+                                                </v-card-text>
+                                            </v-form>
+                                            <v-card-actions>
+                                                <v-btn
+                                                    color="primary"
+                                                    large
+                                                    block
+                                                    @click="
+                                                        login(),
+                                                            (loader = 'loading')
+                                                    "
+                                                    class="ma-2"
+                                                    :loading="loading"
+                                                    :disabled="loading"
+                                                >
+                                                    Sign-in
+                                                    <template v-slot:loader>
+                                                        <span
+                                                            class="custom-loader"
+                                                        >
+                                                            <v-icon light
+                                                                >mdi-cached</v-icon
                                                             >
-                                                                <v-icon light
-                                                                    >mdi-cached</v-icon
-                                                                >
-                                                            </span>
-                                                        </template>
-                                                    </v-btn>
-                                                </v-card-actions>
-                                            </v-card>
-                                        </v-col>
-                                    </v-row>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </div>
+                                                        </span>
+                                                    </template>
+                                                </v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-col>
+            </v-row>
+        </v-container>
     </v-app>
 </template>
 
@@ -178,16 +164,16 @@ export default {
                             return;
                         }
                         var token = response.data.token;
-                        var user_id = response.data.id;
-                        var profile_id = response.data.profile_id;
-                        var profile_role = response.data.profile_role;
-                        var user_type = response.data.role;
+                        // var user_id = response.data.id;
+                        // var profile_id = response.data.profile_id;
+                        // var profile_role = response.data.profile_role;
+                        // var user_type = response.data.role;
                         // Create a local storage item
                         sessionStorage.setItem("user-token", token);
-                        sessionStorage.setItem("user-type", user_type);
-                        sessionStorage.setItem("user-id", user_id);
-                        sessionStorage.setItem("profile-id", profile_id);
-                        sessionStorage.setItem("profile-role", profile_role);
+                        // sessionStorage.setItem("user-type", user_type);
+                        // sessionStorage.setItem("user-id", user_id);
+                        // sessionStorage.setItem("profile-id", profile_id);
+                        // sessionStorage.setItem("profile-role", profile_role);
 
                         // Echo.connector.pusher.config.auth.headers[
                         //     "Authorization"
@@ -200,13 +186,13 @@ export default {
                         // );
 
                         // Redirect user
-                        if (user_type == "ADMINISTRATOR")
-                            this.$router.push("admin/purchase-histories");
-                        else if (user_type == "SUBSCRIBER") {
-                            // var user_linkable_id = response.data.data.linkable.id
-                            // sessionStorage.setItem('user-linkable-id', user_linkable_id)
-                            this.$router.push("/dashboard");
-                        }
+                        // if (user_type == "ADMINISTRATOR")
+                        this.$router.push("admin/dashboard");
+                        // else if (user_type == "HOSPITAL") {
+                        //     this.$router.push("hospital/dashboard");
+                        // } else if (user_type == "OCCUPANT") {
+                        //     this.$router.push("/dashboard");
+                        // }
                         swal.fire({
                             position: "top-end",
                             toast: true,
@@ -220,7 +206,7 @@ export default {
                     .catch(error => {
                         if (error.response.data == "Unauthenticated.") {
                             sessionStorage.clear();
-                            this.$router.push("/signin");
+                            this.$router.push("/login");
                             swal.fire("Error!", error.response.data, "error");
                         } else if (error.response.status == 403) {
                             swal.fire(
@@ -273,7 +259,9 @@ export default {
         if (sessionStorage.getItem("user-type")) {
             if (sessionStorage.getItem("user-type") == "ADMINISTRATOR") {
                 return next("admin/dashboard");
-            } else if (sessionStorage.getItem("user-type") == "SUBSCRIBER") {
+            } else if (sessionStorage.getItem("user-type") == "HOSPITAL") {
+                return next("hospital/dashboard");
+            } else if (sessionStorage.getItem("user-type") == "OCCUPANT") {
                 return next("/dashboard");
             }
         }

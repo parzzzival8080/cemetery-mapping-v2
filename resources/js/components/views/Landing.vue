@@ -173,8 +173,26 @@ export default {
             const top = window.pageYOffset || e.target.scrollTop || 0;
             this.fab = top > 60;
         },
+
         toTop() {
             this.$vuetify.goTo(0);
+        },
+
+        fetchHospitals() {
+            axios
+                .get("/api/v1/nearbyhospitals")
+                .then(response => {
+                    this.histories = response.data;
+                    let hospitals = response.data;
+                    console.log(hospitals);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    this.tableLoading = false;
+                    this.componentOverlay = false;
+                });
         },
 
         showHospital(id) {
@@ -227,6 +245,7 @@ export default {
             this.flat = true;
         }
         this.getUserGeolocation();
+        this.fetchHospitals();
     },
 
     beforeRouteEnter(to, from, next) {
