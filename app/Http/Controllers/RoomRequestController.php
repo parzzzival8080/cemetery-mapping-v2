@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Hospital;
+use App\HospitalRoom;
+use App\Http\Requests\RoomRequestRequest\StoreRoomRequestRequest;
+use App\Http\Requests\RoomRequestRequest\UpdateRoomRequestRequest;
+use App\Http\Resources\RoomRequestResource;
+use App\RoomRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,9 +43,12 @@ class RoomRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRoomRequestRequest $request)
     {
         //
+        $roomRequest = RoomRequest::create($request->validated());
+
+        return new RoomRequestResource($roomRequest);
     }
 
     /**
@@ -72,9 +80,16 @@ class RoomRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRoomRequestRequest $request, RoomRequest $roomRequest)
     {
         //
+        $roomRequest = RoomRequest::findOrFail($roomRequest);
+        $roomRequest->update($request->validated());
+
+        $hospitalRoom =HospitalRoom::findOrFail($roomRequest->room_id);
+        $hospitalRoom->update($request->validated());
+
+        return new RoomRequestResource($roomRequest);
     }
 
     /**

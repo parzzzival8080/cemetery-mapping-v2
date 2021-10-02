@@ -13,7 +13,6 @@ class AuthController extends Controller
 {
     public function login (LoginRequest $request) {
 
-        dd("power");
         $validatedUsername = $request->validated()['username'];
         $validatedPassword = $request->validated()['password'];
 

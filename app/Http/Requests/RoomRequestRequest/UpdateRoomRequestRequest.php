@@ -13,7 +13,7 @@ class UpdateRoomRequestRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -32,6 +32,8 @@ class UpdateRoomRequestRequest extends FormRequest
                 'required',
                 'exists:hospitals,id',
             ],
+
+            'status' => 'required'
         ];
     }
 }
