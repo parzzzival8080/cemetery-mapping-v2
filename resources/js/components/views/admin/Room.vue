@@ -221,7 +221,7 @@ export default {
 
         createRoom() {
             axios
-                .post("/api/v1/subscribers/" + this.profileId + "/rooms", {
+                .post("/api/v1/hospitalrooms", {
                     ...this.editedRoomInformation
                 })
                 .then(response => {

@@ -44,6 +44,6 @@ Route::group(['middleware' => 'forceJsonResponse'], function () {
             Route::apiResource('roomrequests', 'RoomRequestController');
             Route::apiResource('hospitals', 'HospitalController');
             Route::apiResource('occupants', 'OccupantController');
-            Route::apiResource('hospitalrooms', 'OccupantController');
+            Route::apiResource('hospitalrooms', 'HospitalRoomController');
     });
 });
