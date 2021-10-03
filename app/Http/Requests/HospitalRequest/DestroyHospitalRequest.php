@@ -3,6 +3,7 @@
 namespace App\Http\Requests\HospitalRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class DestroyHospitalRequest extends FormRequest
 {
@@ -13,7 +14,10 @@ class DestroyHospitalRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if (Auth::user()->role == 'ADMINISTRATOR')
+            return true;
+        else
+            return false;
     }
 
     /**
