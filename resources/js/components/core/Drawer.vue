@@ -64,14 +64,14 @@ export default {
                 to: "/admin/hospitals",
                 icon: "mdi-hospital-building",
                 text: "Hospitals",
-                module: "hospital"
+                module: "adminHospital"
             },
-            {
-                to: "/admin/hospital-rooms",
-                icon: "mdi-bed-empty",
-                text: "Rooms",
-                module: "adminRoom"
-            },
+            // {
+            //     to: "/admin/hospital-rooms",
+            //     icon: "mdi-bed-empty",
+            //     text: "Rooms",
+            //     module: "adminRoom"
+            // },
             {
                 to: "/admin/users",
                 icon: "mdi-account-circle",
@@ -120,10 +120,10 @@ export default {
         ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
         userPermission(module) {
             var modules = {
-                adminDashboard: true,
-                hospital: true,
+                // adminDashboard: true,
+                adminHospital: true,
                 adminUser: true,
-                adminRoom: true,
+                // adminRoom: true,
                 //hospital
                 hospitalDashboard: true,
                 hospitalRoom: true,
@@ -139,7 +139,7 @@ export default {
                 HOSPITAL: {
                     ...modules,
                     adminDashboard: false,
-                    hospital: false,
+                    adminHospital: false,
                     adminUser: false,
                     adminRoom: false
                 }
