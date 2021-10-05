@@ -164,16 +164,16 @@ export default {
                             return;
                         }
                         var token = response.data.token;
-                        // var user_id = response.data.id;
-                        // var profile_id = response.data.profile_id;
-                        // var profile_role = response.data.profile_role;
-                        // var user_type = response.data.role;
+                        var user_id = response.data.id;
+                        var profile_id = response.data.profile_id;
+                        var profile_role = response.data.profile_role;
+                        var user_type = response.data.role;
                         // Create a local storage item
                         sessionStorage.setItem("user-token", token);
-                        // sessionStorage.setItem("user-type", user_type);
-                        // sessionStorage.setItem("user-id", user_id);
-                        // sessionStorage.setItem("profile-id", profile_id);
-                        // sessionStorage.setItem("profile-role", profile_role);
+                        sessionStorage.setItem("user-type", user_type);
+                        sessionStorage.setItem("user-id", user_id);
+                        sessionStorage.setItem("profile-id", profile_id);
+                        sessionStorage.setItem("profile-role", profile_role);
 
                         // Echo.connector.pusher.config.auth.headers[
                         //     "Authorization"
@@ -186,7 +186,7 @@ export default {
                         // );
 
                         // Redirect user
-                        // if (user_type == "ADMINISTRATOR")
+                        if (user_type == "ADMINISTRATOR")
                         this.$router.push("admin/dashboard");
                         // else if (user_type == "HOSPITAL") {
                         //     this.$router.push("hospital/dashboard");
