@@ -26,7 +26,7 @@ class StoreHospitalRequest extends FormRequest
         return [
                 'username' => 'required|unique:users,username',
                 'password' => 'required|min:8',
-                'role' => 'required|in:OWNER',
+                'role' => 'required|in:HOSPITAL',
 
                 'name' => 'required|min:8',
                 'number' => 'required|min:8',

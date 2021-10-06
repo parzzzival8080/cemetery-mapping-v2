@@ -10,6 +10,7 @@ use App\Http\Requests\HospitalRequest\ShowHospitalRequest;
 use App\Http\Requests\HospitalRequest\StoreHospitalRequest;
 use App\Http\Requests\HospitalRequest\UpdateHospitalRequest;
 use App\Http\Resources\HospitalResource;
+use App\User;
 use Illuminate\Http\Request;
 
 class HospitalController extends Controller
@@ -35,8 +36,10 @@ class HospitalController extends Controller
      */
     public function store(StoreHospitalRequest $request)
     {
-        //
-        $hospital = Hospital::create($request->validate());
+        $user = User::create($request->validated());
+        $hospital = Hospital::create( array_merge($request->validated(),
+            ['user_id' => $user->id]
+        ));
         return new HospitalResource($hospital);
     }
 
