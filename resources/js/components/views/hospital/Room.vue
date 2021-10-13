@@ -127,7 +127,8 @@ export default {
 
             tableRoomHeaders: [
                 { text: "ID", value: "id" },
-                { text: "Name", value: "room_no" },
+                { text: "Room Number", value: "room_no" },
+                { text: "Status", value: "status" },
                 {
                     text: "Actions",
                     value: "actions",
@@ -199,7 +200,7 @@ export default {
             axios
                 .get("/api/v1/hospitalrooms")
                 .then(response => {
-                    this.tableRooms = response.data;
+                    this.tableRooms = response.data.data;
                 })
                 .catch(error => {
                     console.log(error);

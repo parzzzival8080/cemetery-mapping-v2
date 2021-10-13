@@ -161,12 +161,18 @@ export default {
             formHospitalListDialog: false,
 
             formHospitalErrors: {
-                name: null
+                name: null,
+                address: null,
+                number: null,
+                lat: 6.9214,
+                lng: 122.079
             },
 
             tableHospitalHeaders: [
                 { text: "ID", value: "id" },
                 { text: "Name", value: "name" },
+                { text: "Address", value: "address" },
+                { text: "Contract", value: "number" },
                 {
                     text: "Actions",
                     value: "actions",
@@ -177,7 +183,11 @@ export default {
 
             editedHospitalIndex: -1,
             editedHospitalInformation: {
-                name: null
+                name: null,
+                address: null,
+                number: null,
+                lat: 6.9214,
+                lng: 122.079
             },
 
             //Google Maps Variables
@@ -239,7 +249,7 @@ export default {
             axios
                 .get("/api/v1/hospitals")
                 .then(response => {
-                    this.tableHospitals = response.data;
+                    this.tableHospitals = response.data.data;
                 })
                 .catch(error => {
                     console.log(error);
@@ -389,8 +399,8 @@ export default {
 
         //trigger everytime marker is drag
         changed(position) {
-            this.editedEstablishmentInformation.latitude = position.latLng.lat();
-            this.editedEstablishmentInformation.longitude = position.latLng.lng();
+            this.editedHospitalInformation.latitude = position.latLng.lat();
+            this.editedHospitalInformation.longitude = position.latLng.lng();
         },
 
         //Get Address to current location

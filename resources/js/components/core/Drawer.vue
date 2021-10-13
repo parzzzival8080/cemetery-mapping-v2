@@ -98,8 +98,8 @@ export default {
                 module: "hospitalUser"
             }
         ],
-        // userRole: sessionStorage.getItem("user-type"),
-        userRole: "HOSPITAL"
+        userRole: sessionStorage.getItem("user-type")
+        // userRole: "HOSPITAL"
     }),
     computed: {
         ...mapState("app", ["color"]),

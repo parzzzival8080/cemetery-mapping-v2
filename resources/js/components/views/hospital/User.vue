@@ -1,34 +1,66 @@
 <template>
     <v-container fluid>
-        <v-data-table
-            :loading="tableLoading"
-            loading-text="Fetching subscriber list... Please wait"
-            :headers="tableUserHeaders"
-            :items="tableSubsriber"
-            :search="tableSearch"
-        >
-            <template v-slot:top>
-                <v-toolbar flat>
-                    <v-toolbar-title class="headline"
-                        >Subsriber</v-toolbar-title
-                    >
-                    <div class="flex-grow-1"></div>
-                    <v-btn small color="primary" @click="formDialog = true">
-                        <v-icon small left>mdi-plus-circle</v-icon> Add User
-                    </v-btn>
-                </v-toolbar>
-            </template>
-
-            <template v-slot:item.actions="{ item }">
-                <v-btn icon>
-                    <v-icon>mdi-information</v-icon>
-                </v-btn>
-            </template>
-        </v-data-table>
-        <v-dialog v-model="formDialog" max-width="500px" persistent>
-            <template v-slot:activator="{ on }"> </template>
+        <!-- <v-overlay :value="componentOverlay">
+            <v-progress-circular
+                :size="100"
+                :width="5"
+                indeterminate
+            ></v-progress-circular>
+        </v-overlay> -->
+        <v-row justify-center wrap>
+            <v-col md10>
+                <v-card class="elevation-9 ma-4">
+                    <v-container>
+                        <v-data-table
+                            :loading="tableLoading"
+                            loading-text="Fetching occupants list... Please wait"
+                            :headers="tableOccupantHeaders"
+                            :items="tableOccupants"
+                            :search="tableSearch"
+                        >
+                            <template v-slot:top>
+                                <v-toolbar flat>
+                                    <v-toolbar-title class="headline"
+                                        >Occupants</v-toolbar-title
+                                    >
+                                    <div class="flex-grow-1"></div>
+                                    <v-btn
+                                        small
+                                        @click="formOccupantDialog = true"
+                                        color="primary"
+                                    >
+                                        <v-icon small left
+                                            >mdi-plus-circle</v-icon
+                                        >
+                                        Add Occupant
+                                    </v-btn>
+                                </v-toolbar>
+                            </template>
+                            <template v-slot:item.id="{ item }">
+                                {{
+                                    tableOccupants
+                                        .map(function(x) {
+                                            return x.id;
+                                        })
+                                        .indexOf(item.id) + 1
+                                }}
+                            </template>
+                            <template v-slot:item.actions="{ item }">
+                                <v-btn icon @click="editOccupant(item)">
+                                    <v-icon>mdi-pencil</v-icon>
+                                </v-btn>
+                                <v-btn icon @click="deleteOccupant(item)">
+                                    <v-icon>mdi-delete</v-icon>
+                                </v-btn>
+                            </template>
+                        </v-data-table>
+                    </v-container>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-dialog v-model="formOccupantDialog" max-width="500px" persistent>
             <v-card>
-                <v-overlay :value="formOverlay">
+                <v-overlay :value="componentOverlay">
                     <v-progress-circular
                         :size="100"
                         :width="5"
@@ -36,133 +68,79 @@
                     ></v-progress-circular>
                 </v-overlay>
                 <v-card-title class="headline">
-                    {{ formTitle }}
+                    {{ formOccupantTitle }}
                 </v-card-title>
                 <v-card-text>
-                    <v-form ref="subscriberForm" lazy-validation>
-                        <v-row justify="center">
-                            <v-col cols="12" md="6"
-                                ><v-text-field
-                                    v-model="editedUserInformation.first_name"
-                                    :error-messages="formErrors.first_name"
-                                    :rules="rules.required"
-                                    label="First Name"
-                                ></v-text-field
-                            ></v-col>
-                            <v-col cols="12" md="6"
-                                ><v-text-field
-                                    v-model="editedUserInformation.last_name"
-                                    :error-messages="formErrors.last_name"
-                                    :rules="rules.required"
-                                    label="Last Name"
-                                ></v-text-field
-                            ></v-col>
-                        </v-row>
-                        <v-row justify="center">
-                            <v-col cols="12" md="6"
-                                ><v-text-field
-                                    v-model="editedUserInformation.phone_number"
-                                    :error-messages="formErrors.phone_number"
-                                    :rules="rules.contactRules"
-                                    maxlength="11"
-                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                                    label="Contact Number"
-                                ></v-text-field
-                            ></v-col>
-                            <v-col cols="12" md="6"
-                                ><v-text-field
-                                    v-model="editedUserInformation.user.email"
-                                    :error-messages="formErrors.email"
-                                    :rules="rules.emailRules"
-                                    label="Email"
-                                ></v-text-field
-                            ></v-col>
-                        </v-row>
-                        <v-row justify="center">
-                            <v-col cols="12" md="6"
-                                ><v-select
-                                    :items="plans"
-                                    item-value="id"
-                                    item-text="name"
-                                    v-model="editedUserInformation.plan_id"
-                                    :rules="rules.required"
-                                    label="Plan"
-                                ></v-select
-                            ></v-col>
-                            <v-col cols="12" md="6"
-                                ><v-select
-                                    :items="roles"
-                                    v-model="editedUserInformation.role"
-                                    :rules="rules.required"
-                                    label="Role"
-                                ></v-select
-                            ></v-col>
-                        </v-row>
-                        <v-row justify="center">
-                            <v-col cols="12" md="6"
-                                ><v-text-field
-                                    v-model="editedUserInformation.affiliation"
-                                    ><template v-slot:label>
-                                        <div>
-                                            Business Name/Organization
-                                            <small>(Optional)</small>
-                                        </div>
-                                    </template>
-                                </v-text-field></v-col
+                    <v-row justify="center">
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                type="text"
+                                :error-messages="
+                                    formOccupantErrors.occupantsname
+                                "
+                                v-model="
+                                    editedOccupantInformation.occupantsname
+                                "
+                                label="Occupantname"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                v-model="editedOccupantInformation.password"
+                                label="Password"
+                                id="password"
+                                name="password"
+                                prepend-icon="fa-lock"
+                                :append-icon="
+                                    visible ? 'mdi-eye-off' : 'mdi-eye'
+                                "
+                                @click:append="visible = !visible"
+                                :rules="rules.passwordRules"
+                                :type="visible ? 'text' : 'password'"
+                                @keydown.enter="login()"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row justify="center">
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                type="text"
+                                :error-messages="formOccupantErrors.name"
+                                v-model="editedOccupantInformation.name"
+                                label="Name"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                type="text"
+                                :error-messages="formOccupantErrors.number"
+                                v-model="editedOccupantInformation.number"
+                                label="Number"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row
+                        ><v-col cols="12">
+                            <GmapMap
+                                style="width: 100%; height: 400px;"
+                                :zoom="25"
+                                :center="center"
                             >
-                            <v-col cols="12" md="6"
-                                ><v-text-field
-                                    v-model="editedUserInformation.position"
-                                    ><template v-slot:label>
-                                        <div>
-                                            Position
-                                            <small>(Optional)</small>
-                                        </div>
-                                    </template>
-                                </v-text-field></v-col
-                            >
-                        </v-row>
-                        <v-row justify="center">
-                            <v-col cols="12"
-                                ><v-text-field
-                                    v-model="
-                                        editedUserInformation.referral_code
-                                    "
-                                    :error-messages="formErrors.referral_code"
-                                    ><template v-slot:label>
-                                        <div>
-                                            Referral Code
-                                            <small>(Optional)</small>
-                                        </div>
-                                    </template></v-text-field
-                                ></v-col
-                            >
-                        </v-row>
-                        <v-row justify="center">
-                            <v-col cols="12"
-                                ><v-text-field
-                                    v-model="
-                                        editedUserInformation.user.password
-                                    "
-                                    label="Password"
-                                    id="password"
-                                    name="password"
-                                    :append-icon="
-                                        visible ? 'mdi-eye-off' : 'mdi-eye'
-                                    "
-                                    @click:append="visible = !visible"
-                                    :rules="rules.passwordRules"
-                                    :type="visible ? 'text' : 'password'"
-                                    @keydown.enter="register()"
-                                ></v-text-field
-                            ></v-col>
-                        </v-row>
-                    </v-form>
+                                <GmapMarker
+                                    @drag="changed"
+                                    label="★"
+                                    :draggable="true"
+                                    :position="address"
+                                /> </GmapMap
+                        ></v-col>
+                    </v-row>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="px-12" text @click="closeForm">Cancel</v-btn>
-                    <v-btn class="px-12" @click="saveUser" color="primary"
+                    <v-btn class="px-12" text @click="closeOccupantForm"
+                        >Cancel</v-btn
+                    >
+                    <v-btn class="px-12" @click="saveOccupant" color="primary"
                         >Save</v-btn
                     >
                 </v-card-actions>
@@ -175,22 +153,30 @@
 export default {
     data() {
         return {
-            deleteDialog: false,
-            formDialog: false,
-            formOverlay: false,
-            formErrors: {
-                first_name: null,
-                last_name: null,
-                phone_number: null,
-                email: null,
-                password: null
-            },
-            visible: false,
+            componentOverlay: false,
+            // profileId: sessionStorage.getItem("profile-id"),
             tableLoading: true,
-            tableUserHeaders: [
+            tableSearch: null,
+            searchInput: "",
+            visible: false,
+            //Occupant
+            tableOccupants: [],
+            formOccupantDialog: false,
+            formOccupantListDialog: false,
+
+            formOccupantErrors: {
+                name: null,
+                address: null,
+                number: null,
+                lat: 6.9214,
+                lng: 122.079
+            },
+
+            tableOccupantHeaders: [
                 { text: "ID", value: "id" },
                 { text: "Name", value: "name" },
-                { text: "Contact Number", value: "phone_number" },
+                { text: "Address", value: "address" },
+                { text: "Contract", value: "number" },
                 {
                     text: "Actions",
                     value: "actions",
@@ -198,41 +184,27 @@ export default {
                     align: "center"
                 }
             ],
-            tableSubsriber: [],
-            tableSearch: null,
-            statuses: [
-                { value: 1, text: "ACTIVE" },
-                { value: 0, text: "INACTIVE" }
-            ],
-            plans: [],
-            roles: ["SUBSCRIBER", "PARTNER"],
-            editedIndex: -1,
-            defaultUserInformation: {
-                first_name: null,
-                last_name: null,
-                phone_number: null,
-                user: { email: null, password: null },
-                is_active: true,
-                plan_id: null,
-                role: "SUBSCRIBER",
-                affiliation: null,
-                position: null
+
+            editedOccupantIndex: -1,
+            editedOccupantInformation: {
+                name: null,
+                address: null,
+                number: null,
+                lat: 6.9214,
+                lng: 122.079
             },
 
-            editedUserInformation: {
-                first_name: null,
-                last_name: null,
-                phone_number: null,
-                user: { email: null, password: null },
-                is_active: true,
-                plan_id: null,
-                role: "SUBSCRIBER",
-                affiliation: null,
-                position: null
-            },
+            //Google Maps Variables
+            center: { lat: 6.9214, lng: 122.079 },
+            address: { lat: 6.9214, lng: 122.079 },
 
             rules: {
-                required: [v => !!v || "Field is required"],
+                required: [
+                    v => !!v || "Field is required",
+                    v =>
+                        (!!v && v.length <= 255) ||
+                        " Field should not be more than 255 characters"
+                ],
                 emailRules: [
                     v => !!v || "E-mail is required",
                     v =>
@@ -242,23 +214,14 @@ export default {
                         (!!v && v.length <= 255) ||
                         "E-mail must not be more than 255 characters"
                 ],
-                contactRules: [
-                    v => !!v || "Contact Number is required",
+                occupantsRules: [
+                    v => !!v || "Occupant Number is required",
                     v =>
                         (!!v && v.length >= 10) ||
-                        "Contact Number must be 11 characters",
+                        "Occupant Number must be 11 characters",
                     v =>
                         (!!v && v.length < 11) ||
-                        "Contact Number must not be more than 11 characters"
-                ],
-                subsciberRules: [
-                    v => !!v || "Contact Number is required",
-                    v =>
-                        (!!v && v.length >= 10) ||
-                        "Contact Number must be 11 characters",
-                    v =>
-                        (!!v && v.length < 11) ||
-                        "Contact Number must not be more than 11 characters"
+                        "Occupant Number must not be more than 11 characters"
                 ],
                 passwordRules: [
                     v => !!v || "Password is required",
@@ -271,75 +234,68 @@ export default {
     },
 
     computed: {
-        formTitle() {
-            return this.editedIndex === -1 ? "New User" : "Edit User";
+        formOccupantTitle() {
+            return this.editedOccupantIndex === -1
+                ? "New Occupant"
+                : "Edit Occupant";
         }
     },
 
     mounted() {
-        this.fetchSubsribers();
-        this.fetchPlans();
+        this.fetchOccupants();
     },
 
     methods: {
-        fetchSubsribers() {
+        //Occupant
+        fetchOccupants() {
             this.tableLoading = true;
-            axios
-                .get("/api/v1/subscribers")
-                .then(response => {
-                    this.tableSubsriber = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-                .finally(() => (this.tableLoading = false));
-        },
-
-        fetchPlans() {
             this.componentOverlay = true;
             axios
-                .get("/api/v1/plans")
+                .get("/api/v1/occupants")
                 .then(response => {
-                    this.plans = response.data;
+                    this.tableOccupants = response.data.data;
                 })
                 .catch(error => {
                     console.log(error);
                 })
                 .finally(() => {
                     this.componentOverlay = false;
+                    this.tableLoading = false;
                 });
         },
 
-        saveUser() {
-            this.formOverlay = true;
-            if (this.$refs.subscriberForm.validate()) {
-                this.componentOverlay = true;
-                if (this.editedContactIndex > -1) {
-                    this.updateUser();
-                } else {
-                    this.createUser();
-                }
+        saveOccupant() {
+            this.componentOverlay = true;
+            if (this.editedOccupantIndex > -1) {
+                this.updateOccupant();
+            } else {
+                this.createOccupant();
             }
         },
 
-        createUser() {
+        createOccupant() {
             axios
-                .post("/api/v1/subscribers", {
-                    ..._.omit(this.editedUserInformation, "user"),
-                    ...this.editedUserInformation.user,
-                    password_confirmation: this.editedUserInformation.user
-                        .password,
-                    phone_number: this.editedUserInformation.phone_number
+                .post("/api/v1/occupants", {
+                    ...this.editedOccupantInformation
                 })
                 .then(response => {
-                    this.fetchSubsribers();
-                    this.closeForm();
+                    this.fetchOccupants();
+                    this.closeOccupantForm();
+                    swal.fire({
+                        position: "top-end",
+                        toast: true,
+                        type: "success",
+                        icon: "success",
+                        text: "Successfully Created",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 })
                 .catch(error => {
-                    this.formOverlay = false;
+                    this.componentOverlay = false;
 
                     if (error.response.status == 422) {
-                        this.formErrors = error.response.data.errors;
+                        this.formOccupantErrors = error.response.data.errors;
                     } else {
                         console.log(error);
                     }
@@ -347,39 +303,35 @@ export default {
                 .finally(() => {});
         },
 
-        editUser(subsciber) {
-            this.editedIndex = this.tableSubsriber.indexOf(subsciber);
-            this.editedUserInformation = Object.assign({}, subsciber);
-            if (!this.editedUserInformation.user)
-                this.editedUserInformation.user = {
-                    email: null,
-                    password: null
-                };
-            this.formDialog = true;
+        editOccupant(occupants) {
+            this.editedOccupantIndex = this.tableOccupants.indexOf(occupants);
+            this.editedOccupantInformation = Object.assign({}, occupants);
+            this.formOccupantDialog = true;
         },
 
-        updateUser() {
+        updateOccupant() {
             axios
-                .put("/api/v1/subscribers/" + this.editedUserInformation.id, {
-                    ..._.omit(
-                        this.editedUserInformation,
-                        "user",
-                        "subscriber_plan"
-                    ),
-                    ...this.editedUserInformation.user,
-                    password_confirmation: this.editedUserInformation.user
-                        .password,
-                    phone_number: this.editedUserInformation.phone_number
+                .put("/api/v1/occupants/" + this.editedOccupantInformation.id, {
+                    ...this.editedOccupantInformation
                 })
                 .then(response => {
-                    this.fetchSubsribers();
-                    this.closeForm();
+                    this.fetchOccupants();
+                    this.closeOccupantForm();
+                    swal.fire({
+                        position: "top-end",
+                        toast: true,
+                        type: "success",
+                        icon: "success",
+                        text: "Successfully Updated",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 })
                 .catch(error => {
-                    this.formOverlay = false;
+                    this.componentOverlay = false;
 
                     if (error.response.status == 422) {
-                        this.formErrors = error.response.data.errors;
+                        this.formOccupantErrors = error.response.data.errors;
                     } else {
                         console.log(error);
                     }
@@ -387,84 +339,95 @@ export default {
                 .finally(() => {});
         },
 
-        deleteUser(subsciber) {
-            axios
-                .delete("/api/v1/subscribers/" + subsciber.id)
-                .then(response => {
-                    this.tableSubsriber.pop(subsciber);
+        deleteOccupant(occupants) {
+            swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            })
+                .then(result => {
+                    if (result.value) {
+                        axios
+                            .delete("/api/v1/occupants/" + occupants.id)
+                            .then(() => {
+                                this.fetchOccupants();
+                                this.closeOccupantForm();
+                                swal.fire(
+                                    "Deleted!",
+                                    "Occupant has been deleted.",
+                                    "success"
+                                );
+                            })
+                            .catch(error => {
+                                swal.fire(
+                                    "Failed!",
+                                    "There was something wrong.",
+                                    "warning"
+                                );
+                                this.error = response.data.errors;
+                                if (
+                                    error.response.data.message ==
+                                    "Unauthenticated."
+                                ) {
+                                    sessionStorage.clear();
+                                    this.$router.push("/login");
+                                }
+                                return;
+                            });
+                    }
                 })
-                .catch(error => {
-                    console.log(error);
-                })
-                .finally(() => {
-                    this.closeForm();
+                .catch(() => {
+                    swal("Failed!", "There was something wrong.", "warning");
                 });
         },
 
-        closeForm() {
-            this.formDialog = false;
-            this.formOverlay = false;
+        closeOccupantForm() {
+            this.formOccupantDialog = false;
+            this.componentOverlay = false;
             this.deleteDialog = false;
             setTimeout(() => {
-                this.formErrors = {
-                    name: null,
-                    phone_number: null,
-                    address: null,
-                    postal_code: null,
-                    username: null,
-                    password: null
+                this.formOccupantErrors = {
+                    name: null
                 };
-                this.editedUserInformation = Object.assign(
+                this.editedOccupantInformation = Object.assign(
                     {},
-                    this.defaultUserInformation
+                    this.defaultOccupantInformation
                 );
-                this.editedIndex = -1;
+                this.editedOccupantIndex = -1;
             }, 500);
         },
 
-        updateUserPlan() {
-            axios
-                .put(
-                    "/api/v1/subscriber-plans/" +
-                        this.editedUserInformation.subscriber_plan.id,
-                    {
-                        plan_id: this.editedUserInformation.plan_id,
-                        sender_id: this.editedUserInformation.sender_id,
-                        sender_id_api_key: this.editedUserInformation
-                            .sender_id_api_key
-                    }
-                )
-                .then(response => {
-                    this.fetchSubsribers();
-                    this.closeForm();
-                })
-                .catch(error => {
-                    this.formOverlay = false;
-
-                    if (error.response.status == 422) {
-                        this.formErrors = error.response.data.errors;
-                    } else {
-                        console.log(error);
-                    }
-                })
-                .finally(() => {});
+        //trigger everytime marker is drag
+        changed(position) {
+            this.editedOccupantInformation.latitude = position.latLng.lat();
+            this.editedOccupantInformation.longitude = position.latLng.lng();
         },
 
-        openStatusDialog(item) {
-            this.editedUserInformation = Object.assign({
-                ...this.editedUserInformation,
-                ...item
-            });
+        //Get Address to current location
+        getOccupantGeolocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    this.setOccupantGeolocation
+                );
+            } else {
+                window.clearInterval(window.locationInterval);
+                alert("Geolocation is not supported by this browser.");
+            }
         },
 
-        openPlanDialog(item) {
-            this.editedUserInformation = Object.assign({
-                ...this.editedUserInformation,
-                ...item,
-                plan_id: item.subscriber_plan.plan.id,
-                sender_id: item.subscriber_plan.sender_id,
-                sender_id_api_key: item.subscriber_plan.sender_id_api_key
-            });
+        //Set Address to current location
+        setOccupantGeolocation(position) {
+            var OccupantGeolocationLatitude = position.coords.latitude;
+            var OccupantGeolocationLongitude = position.coords.longitude;
+            this.center = {
+                lat: OccupantGeolocationLatitude,
+                lng: OccupantGeolocationLongitude
+            };
+            this.address = this.center;
         }
     }
 };
