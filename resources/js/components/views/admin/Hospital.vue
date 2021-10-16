@@ -186,8 +186,8 @@ export default {
                 name: null,
                 address: null,
                 number: null,
-                lat: 6.9214,
-                lng: 122.079
+                latitude: 6.9214,
+                longitude: 122.079
             },
 
             //Google Maps Variables
