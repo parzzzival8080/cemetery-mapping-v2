@@ -58,7 +58,7 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-dialog v-model="formHospitalDialog" max-width="500px" persistent>
+        <v-dialog v-model="formHospitalDialog" max-width="800px" persistent>
             <v-card>
                 <v-overlay :value="componentOverlay">
                     <v-progress-circular
@@ -112,6 +112,14 @@
                                 :error-messages="formHospitalErrors.number"
                                 v-model="editedHospitalInformation.number"
                                 label="Number"
+                            />
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field
+                                type="text"
+                                :error-messages="formHospitalErrors.address"
+                                v-model="editedHospitalInformation.address"
+                                label="Address"
                             />
                         </v-col>
                     </v-row>
