@@ -170,7 +170,6 @@ export default {
                         sessionStorage.setItem("user-token", token);
                         sessionStorage.setItem("user-type", user_type);
                         sessionStorage.setItem("user-id", user_id);
-
                         // Echo.connector.pusher.config.auth.headers[
                         //     "Authorization"
                         // ] = "Bearer " + token;

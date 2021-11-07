@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Hospital;
 use App\HospitalRoom;
 use App\Http\Requests\HospitalRoomRequest\DestroyHospitalRoomRequest;
 use App\Http\Requests\HospitalRoomRequest\IndexHospitalRoomRequest;
@@ -11,6 +12,7 @@ use App\Http\Requests\HospitalRoomRequest\UpdateHospitalRoomRequest;
 use App\Http\Resources\HospitalResource;
 use App\Http\Resources\HospitalRoomResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HospitalRoomController extends Controller
 {
@@ -45,7 +47,14 @@ class HospitalRoomController extends Controller
      */
     public function store(StoreHospitalRoomRequest $request)
     {
-        $hospitalRoom = HospitalRoom::create($request->validated());
+        $user = Auth::user();
+        $hospital = Hospital::whereUserId($user->id)->first();
+        $hospitalRoom = HospitalRoom::create(
+            array_merge([
+                'hospital_id' => $hospital->id,
+                $request->validated(),
+            ]));
+
 
         return new HospitalRoomResource($hospitalRoom);
     }
