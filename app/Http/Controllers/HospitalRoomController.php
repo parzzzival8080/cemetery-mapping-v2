@@ -49,11 +49,12 @@ class HospitalRoomController extends Controller
     {
         $user = Auth::user();
         $hospital = Hospital::whereUserId($user->id)->first();
+
+        // dd($request->validated());
         $hospitalRoom = HospitalRoom::create(
             array_merge([
                 'hospital_id' => $hospital->id,
-                $request->validated(),
-            ]));
+            ], $request->validated()));
 
 
         return new HospitalRoomResource($hospitalRoom);
