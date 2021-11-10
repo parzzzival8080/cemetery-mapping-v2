@@ -125,7 +125,7 @@ export default {
                 adminUser: true,
                 // adminRoom: true,
                 //hospital
-                hospitalDashboard: true,
+                // hospitalDashboard: true,
                 hospitalRoom: true,
                 hospitalUser: true
             };

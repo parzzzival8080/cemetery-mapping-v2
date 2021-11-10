@@ -182,9 +182,9 @@ export default {
 
                         // Redirect user
                         if (user_type == "ADMINISTRATOR")
-                            this.$router.push("admin/dashboard");
+                            this.$router.push("admin/hospitals");
                         else if (user_type == "HOSPITAL") {
-                            this.$router.push("hospital/dashboard");
+                            this.$router.push("hospital/rooms");
                         }
                         // else if (user_type == "OCCUPANT") {
                         //     this.$router.push("/dashboard");
@@ -254,9 +254,9 @@ export default {
     beforeRouteEnter(to, from, next) {
         if (sessionStorage.getItem("user-type")) {
             if (sessionStorage.getItem("user-type") == "ADMINISTRATOR") {
-                return next("admin/dashboard");
+                return next("admin/hospitals");
             } else if (sessionStorage.getItem("user-type") == "HOSPITAL") {
-                return next("hospital/dashboard");
+                return next("hospital/rooms");
             } else if (sessionStorage.getItem("user-type") == "OCCUPANT") {
                 return next("/dashboard");
             }
