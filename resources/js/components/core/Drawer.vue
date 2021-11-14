@@ -120,7 +120,7 @@ export default {
         ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
         userPermission(module) {
             var modules = {
-                // adminDashboard: true,
+                adminDashboard: true,
                 adminHospital: true,
                 adminUser: true,
                 // adminRoom: true,
