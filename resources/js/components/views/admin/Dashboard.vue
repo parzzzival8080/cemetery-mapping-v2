@@ -5,8 +5,6 @@
                 <v-row class="mt-4">
                     <v-col>
                         <h1>Dashboard</h1>
-                        <p class="font-weight-thin body-2">Welcome Back!</p>
-                        <h4 class="mt-4">Quick Stats</h4>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -15,7 +13,7 @@
                         xs="12"
                         md="6"
                         lg="6"
-                        xl="3"
+                        xl="4"
                         v-for="(stat, index) in stats"
                         :key="index"
                     >
@@ -44,7 +42,7 @@ export default {
             stats: [
                 {
                     color: "green",
-                    icon: "mdi-account-group",
+                    icon: "mdi-hospital-building",
                     title: "Hospitals",
                     value: "6",
                     smallvalue: "",
@@ -55,7 +53,7 @@ export default {
                 },
                 {
                     color: "orange",
-                    icon: "mdi-account",
+                    icon: "mdi-bed",
                     title: "Rooms Available",
                     value: "132",
                     smallvalue: "",
@@ -66,24 +64,13 @@ export default {
                 },
                 {
                     color: "info",
-                    icon: "fa-coins",
+                    icon: "mdi-account-group",
                     title: "Occupants",
                     value: "0",
                     smallvalue: "",
                     subicon: "mdi-update",
                     subiconcolor: "",
                     subtext: "Just Updated",
-                    subtextcolor: ""
-                },
-                {
-                    color: "red",
-                    icon: "fa-sms",
-                    title: "",
-                    value: "0",
-                    smallvalue: "",
-                    subicon: "mdi-update",
-                    subiconcolor: "",
-                    subtext: "Basic Plan",
                     subtextcolor: ""
                 }
             ],

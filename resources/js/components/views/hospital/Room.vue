@@ -83,8 +83,6 @@
                         <v-col cols="12" md="6">
                             <v-select
                                 :items="items"
-                                item-value="id"
-                                item-text="name"
                                 type="text"
                                 :error-messages="formRoomErrors.status"
                                 v-model="editedRoomInformation.status"
@@ -112,7 +110,8 @@ export default {
     data() {
         return {
             componentOverlay: false,
-            // profileId: sessionStorage.getItem("profile-id"),
+            userId: sessionStorage.getItem("user-id"),
+            profileId: sessionStorage.getItem("profile-id"),
             tableLoading: true,
             tableSearch: null,
             searchInput: "",
@@ -142,10 +141,7 @@ export default {
                 room_no: null
             },
 
-            items: [
-                { id: 0, name: "UNAVAILABLE" },
-                { id: 1, name: "AVAILABLE" }
-            ],
+            items: ["OCCUPIED", "VACANT"],
 
             rules: {
                 required: [
@@ -223,7 +219,8 @@ export default {
         createRoom() {
             axios
                 .post("/api/v1/hospitalrooms", {
-                    ...this.editedRoomInformation
+                    ...this.editedRoomInformation,
+                    hospital_id: this.profileId
                 })
                 .then(response => {
                     this.fetchRooms();
@@ -259,7 +256,8 @@ export default {
         updateRoom() {
             axios
                 .put("/api/v1/hospitalrooms/" + this.editedRoomInformation.id, {
-                    ...this.editedRoomInformation
+                    ...this.editedRoomInformation,
+                    hospital_id: this.profileId
                 })
                 .then(response => {
                     this.fetchRooms();

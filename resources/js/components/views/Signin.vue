@@ -170,6 +170,7 @@ export default {
                         sessionStorage.setItem("user-token", token);
                         sessionStorage.setItem("user-type", user_type);
                         sessionStorage.setItem("user-id", user_id);
+
                         // Echo.connector.pusher.config.auth.headers[
                         //     "Authorization"
                         // ] = "Bearer " + token;
@@ -184,6 +185,10 @@ export default {
                         if (user_type == "ADMINISTRATOR")
                             this.$router.push("admin/hospitals");
                         else if (user_type == "HOSPITAL") {
+                            sessionStorage.setItem(
+                                "profile-id",
+                                response.data.hospital.id
+                            );
                             this.$router.push("hospital/rooms");
                         }
                         // else if (user_type == "OCCUPANT") {
