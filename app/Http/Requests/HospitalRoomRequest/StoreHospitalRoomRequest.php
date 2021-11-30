@@ -25,7 +25,7 @@ class StoreHospitalRoomRequest extends FormRequest
     {
         return [
             'room_no' => 'string|required',
-            'status' => 'integer'
+            'status' => 'required'
         ];
     }
 }

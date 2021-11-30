@@ -36,7 +36,7 @@ class HospitalController extends Controller
      */
     public function store(StoreHospitalRequest $request)
     {
-        $user = User::create($request->validated());
+        $user = User::create(array_merge($request->validated(), ['role' => 'HOSPITAL']));
         $hospital = Hospital::create( array_merge($request->validated(),
             ['user_id' => $user->id]
         ));
