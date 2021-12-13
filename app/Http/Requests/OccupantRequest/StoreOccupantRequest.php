@@ -25,8 +25,8 @@ class StoreOccupantRequest extends FormRequest
     {
         return [
             'name' => 'string|required',
-            'address' => 'string',
-            'type' => 'string',
+            // 'address' => 'required',
+            // 'type' => 'required',
         ];
     }
 }
