@@ -19,6 +19,7 @@ Route::group(['middleware' => 'forceJsonResponse'], function () {
     Route::group(['prefix' => 'v1'], function() {
 
         Route::post('/login', 'AuthController@login');
+        Route::post('/register', 'OccupantController@store');
 
         Route::get('/verification', 'VerificationController@verifyContactNumber');
         Route::put('/forgot-password', 'VerificationController@sendCodeToContactNumber');
