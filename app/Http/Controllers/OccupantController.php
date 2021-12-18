@@ -10,6 +10,7 @@ use App\Http\Requests\OccupantRequest\UpdateOccupantRequest;
 use App\Http\Resources\OccupantResource;
 use App\Occupant;
 use App\RoomRequest;
+use App\User;
 use Illuminate\Http\Request;
 
 class OccupantController extends Controller
@@ -44,16 +45,14 @@ class OccupantController extends Controller
      */
     public function store(StoreOccupantRequest $request)
     {
-        //
-        $occupant = Occupant::create($request->validated());
-        $roomRequest = RoomRequest::create(
+        $user = User::create($request->validated());
+        $occupant = Occupant::create(
             array_merge(
                 [
-                    'room_id' => $request->input('room_id'),
-                    'occupant_id' => $occupant->id
+                    'user_id' => $user->id,
                 ]
-            )
-        );
+            ),
+            $request->validated());
         return new OccupantResource($occupant);
     }
 

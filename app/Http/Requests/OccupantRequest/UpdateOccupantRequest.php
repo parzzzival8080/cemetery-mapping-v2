@@ -24,9 +24,13 @@ class UpdateOccupantRequest extends FormRequest
     public function rules()
     {
         return [
+            'username' => 'required|unique:users,username',
+            'password' => 'required|min:8',
+            'role' => 'OCCUPANT',
+            
             'name' => 'string|required',
-            'address' => 'string',
-            'type' => 'string'
+            'address' => 'required',
+            'type' => 'required',
         ];
     }
 }
