@@ -75,13 +75,9 @@
                         <v-col cols="12" md="6">
                             <v-text-field
                                 type="text"
-                                :error-messages="
-                                    formOccupantErrors.occupantsname
-                                "
-                                v-model="
-                                    editedOccupantInformation.occupantsname
-                                "
-                                label="Occupantname"
+                                :error-messages="formOccupantErrors.username"
+                                v-model="editedOccupantInformation.username"
+                                label="Occupant UserName"
                             />
                         </v-col>
                         <v-col cols="12" md="6">
@@ -116,6 +112,16 @@
                                 :error-messages="formOccupantErrors.number"
                                 v-model="editedOccupantInformation.number"
                                 label="Number"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-text-field
+                                type="text"
+                                :error-messages="formOccupantErrors.address"
+                                v-model="editedOccupantInformation.address"
+                                label="Address"
                             />
                         </v-col>
                     </v-row>
