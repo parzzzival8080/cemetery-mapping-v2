@@ -37,6 +37,7 @@ class UserTableSeeder extends Seeder
             'number' => '09664375522',
             'user_id' => $userHospital->id,
             'address' => 'Pasonanca, Zamboanga City',
+            'status' => 'RECIEVING',
             'longitude' => 0,
             'latitude' => 0,
             'created_at' => now(),
