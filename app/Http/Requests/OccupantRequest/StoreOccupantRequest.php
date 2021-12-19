@@ -24,12 +24,11 @@ class StoreOccupantRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|unique:users,username',
-            'password' => 'required|min:8',
-            'role' => 'OCCUPANT',
             'name' => 'string|required',
             'address' => 'required',
             'type' => 'required',
+            'status' => 'required',
+            'number' => 'required'
         ];
     }
 }
