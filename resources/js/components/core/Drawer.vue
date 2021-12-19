@@ -78,6 +78,12 @@ export default {
                 text: "Users",
                 module: "adminUser"
             },
+            {
+                to: "/admin/room-requests",
+                icon: "mdi-bed",
+                text: "Room Requests",
+                module: "adminRequest"
+            },
             //Hospital
             {
                 to: "/hospital/dashboard",
@@ -96,6 +102,12 @@ export default {
                 icon: "mdi-account-circle",
                 text: "Users",
                 module: "hospitalUser"
+            },
+            {
+                to: "/hospital/room-requests",
+                icon: "mdi-bed",
+                text: "Room Requests",
+                module: "hospitalRequest"
             }
         ],
         userRole: sessionStorage.getItem("user-type")
@@ -123,21 +135,25 @@ export default {
                 adminDashboard: true,
                 adminHospital: true,
                 adminUser: true,
+                adminRequest: true,
                 // adminRoom: true,
                 //hospital
                 // hospitalDashboard: true,
                 hospitalRoom: true,
-                hospitalUser: true
+                hospitalUser: true,
+                hospitalRequest: true
             };
             var permissions = {
                 ADMINISTRATOR: {
                     ...modules,
                     hospitalDashboard: false,
+                    hospitalRequest: false,
                     hospitalRoom: false,
                     hospitalUser: false
                 },
                 HOSPITAL: {
                     ...modules,
+                    adminRequest: false,
                     adminDashboard: false,
                     adminHospital: false,
                     adminUser: false,
