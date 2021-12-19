@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Occupant extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'type', 'status', 'address', 'number'
+         'name', 'type', 'status', 'address', 'number'
     ];
 
     protected $hidden = [

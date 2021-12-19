@@ -25,7 +25,9 @@ class RoomRequestController extends Controller
 
         if($authenticatedUser->role == 'ADMINISTRATOR')
         {
-            $roomRequest = RoomRequest::all();
+            $roomRequest = RoomRequest::with('occupant')
+                                        ->with('hospital_room')
+                                        ->get();
             return $roomRequest;
         }
         elseif($authenticatedUser->role == 'HOSPITAL')
@@ -67,6 +69,8 @@ class RoomRequestController extends Controller
             ])
             );
 
+        $updateRoom = HospitalRoom::where('id', $request->input('hospital_room_id'))->update(array('status' => 'OCCUPIED'));
+
 
         return new RoomRequestResource($roomRequest);
     }
@@ -105,9 +109,6 @@ class RoomRequestController extends Controller
         //
         $roomRequest = RoomRequest::findOrFail($roomRequest);
         $roomRequest->update($request->validated());
-
-        $hospitalRoom =HospitalRoom::findOrFail($roomRequest->room_id);
-        $hospitalRoom->update($request->validated());
 
         $occupant = Occupant::findOrFail($roomRequest->occupant_id);
         $occupant->update($request->validated());
