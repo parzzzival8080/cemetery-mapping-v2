@@ -98,7 +98,7 @@
                         </v-col>
                     </v-row>
                     <v-row justify="center">
-                        <v-col cols="12" md="6">
+                        <v-col cols="12" md="4">
                             <v-text-field
                                 type="text"
                                 :error-messages="formHospitalErrors.name"
@@ -106,12 +106,20 @@
                                 label="Name"
                             />
                         </v-col>
-                        <v-col cols="12" md="6">
+                        <v-col cols="12" md="4">
                             <v-text-field
                                 type="text"
                                 :error-messages="formHospitalErrors.number"
                                 v-model="editedHospitalInformation.number"
                                 label="Number"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-select
+                                :items="statuses"
+                                :error-messages="formHospitalErrors.status"
+                                v-model="editedHospitalInformation.status"
+                                label="Status"
                             />
                         </v-col>
                         <v-col cols="12">
@@ -161,6 +169,7 @@ export default {
             // profileId: sessionStorage.getItem("profile-id"),
             tableLoading: true,
             tableSearch: null,
+            statuses: ["RECEIVING", "NOT_RECEIVING"],
             searchInput: "",
             visible: false,
             //Hospital
