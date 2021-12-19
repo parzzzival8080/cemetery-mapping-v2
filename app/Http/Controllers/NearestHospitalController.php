@@ -11,8 +11,15 @@ class NearestHospitalController extends Controller
     public function nearbyHospital(Request $request)
     {
 
-        $latitude = $request->input('lat');
-        $longitude = $request->input('lng');
+
+
+        // $latitude = $request->input('lat');
+        // $longitude = $request->input('lng');
+
+        $latitude = 0.0;
+        $longitude = 0.0;
+
+        // dd($latitude);
         $radius = 3000;
         $nearbyHospital = Hospital::select('hospitals.*',
         DB::raw('((ACOS(SIN(' . $latitude . ' * PI() / 180) * SIN(latitude * PI() / 180) + COS(' . $latitude .
