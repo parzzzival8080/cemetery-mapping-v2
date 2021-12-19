@@ -14,8 +14,13 @@ class Occupant extends Model
      'created_at', 'updated_at'
     ];
 
+    public function room()
+    {
+        return $this->belongsTo(HospitalRoom::class);
+    }
+
     public function roomRequest()
     {
-        return $this->hasMany(RoomRequest::class);
+        return $this->belongsTo(RoomRequest::class);
     }
 }

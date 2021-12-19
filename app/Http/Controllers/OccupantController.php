@@ -23,7 +23,7 @@ class OccupantController extends Controller
     public function index(IndexOccupantRequest $request)
     {
         //
-        $occupant = Occupant::with('rooms')->get();
+        $occupant = Occupant::with('room')->get();
         return OccupantResource::collection($occupant);
     }
 

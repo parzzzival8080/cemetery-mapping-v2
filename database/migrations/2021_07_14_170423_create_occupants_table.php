@@ -16,10 +16,10 @@ class CreateOccupantsTable extends Migration
         Schema::create('occupants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('status');
-            $table->string('number');
-            $table->string('address');
-            $table->string('type');
+            $table->string('status')->default('ADMITTED');
+            $table->string('number')->default('0909090909');
+            $table->string('address')->default('Zamboanga');
+            $table->string('type')->default('NON_COVID');
             $table->timestamps();
         });
     }
