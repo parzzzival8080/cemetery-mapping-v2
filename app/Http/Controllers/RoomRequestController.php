@@ -7,6 +7,7 @@ use App\HospitalRoom;
 use App\Http\Requests\RoomRequestRequest\StoreRoomRequestRequest;
 use App\Http\Requests\RoomRequestRequest\UpdateRoomRequestRequest;
 use App\Http\Resources\RoomRequestResource;
+use App\Occupant;
 use App\RoomRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -88,6 +89,9 @@ class RoomRequestController extends Controller
 
         $hospitalRoom =HospitalRoom::findOrFail($roomRequest->room_id);
         $hospitalRoom->update($request->validated());
+
+        $occupant = Occupant::findOrFail($roomRequest->occupant_id);
+        $occupant->update($request->validated());
 
         return new RoomRequestResource($roomRequest);
     }
