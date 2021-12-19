@@ -15,9 +15,10 @@ class NearestHospitalController extends Controller
         $longitude = $request->input('lng');
         $radius = 3000;
         $nearbyHospital = Hospital::select('hospitals.*',
-                                                DB::raw('((ACOS(SIN(' . $latitude . ' * PI() / 180) * SIN(latitude * PI() / 180) + COS(' . $latitude .
-                                                ' * PI() / 180) * COS(latitude * PI() / 180) * COS((' . $longitude . ' - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344 * 1000) AS distance'))
-                                                ->orderBy('distance')->having('distance', '<=', $radius)->get();
+        DB::raw('((ACOS(SIN(' . $latitude . ' * PI() / 180) * SIN(latitude * PI() / 180) + COS(' . $latitude .
+        ' * PI() / 180) * COS(latitude * PI() / 180) * COS((' . $longitude . ' - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344 * 1000) AS distance'))
+                                                ->orderBy('distance')->having('distance', '<=', $radius)
+                                                ->get();
 
         return response()->json(
                 [
