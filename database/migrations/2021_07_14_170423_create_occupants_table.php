@@ -16,6 +16,9 @@ class CreateOccupantsTable extends Migration
         Schema::create('occupants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('status');
+            $table->string('number');
+            $table->string('address');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
