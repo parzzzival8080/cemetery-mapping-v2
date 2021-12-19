@@ -25,7 +25,6 @@ class HospitalRoomController extends Controller
     {
         //
         $hospitalRoom = HospitalRoom::all();
-
         return HospitalRoomResource::collection($hospitalRoom);
     }
 

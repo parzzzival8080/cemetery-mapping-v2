@@ -22,10 +22,20 @@ class RoomRequestController extends Controller
     public function index()
     {
         $authenticatedUser = Auth::user();
-        $hospital = Hospital::findOrFail($authenticatedUser->id);
 
-        $occupiedRooms = $hospital->rooms->roomRequests;
-        return $occupiedRooms;
+        if($authenticatedUser->role == 'ADMINISTRATOR')
+        {
+            $roomRequest = RoomRequest::all();
+            return $roomRequest;
+        }
+        elseif($authenticatedUser->role == 'HOSPITAL')
+        {
+            $hospital = Hospital::findOrFail($authenticatedUser->id);
+
+            $occupiedRooms = $hospital->rooms->roomRequest;
+            return $occupiedRooms;
+        }
+
     }
 
     /**
@@ -47,7 +57,16 @@ class RoomRequestController extends Controller
     public function store(StoreRoomRequestRequest $request)
     {
         //
-        $roomRequest = RoomRequest::create($request->validated());
+        // dd($request->input('hospital_room_id'));
+        $roomRequest = RoomRequest::create(
+            array_merge([
+                'hospital_room_id' => $request->input('hospital_room_id'),
+                'occupant_id' => $request->input('occupant_id'),
+                'type' => $request->input('type'),
+                'status' => $request->input('status')
+            ])
+            );
+
 
         return new RoomRequestResource($roomRequest);
     }

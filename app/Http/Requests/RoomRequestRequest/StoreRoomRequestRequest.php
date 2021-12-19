@@ -24,14 +24,8 @@ class StoreRoomRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            'hospital_room_id' => [
-                'required',
-                'exists:hospital_rooms,id',
-            ],
-            'occupant_id' => [
-                'required',
-                'exists:hospitals,id',
-            ],
+            // 'hospital_room_id' => 'required',
+            'occupant_id' => 'required',
             'status' => 'nullable',
             'type' => 'nullable',
         ];

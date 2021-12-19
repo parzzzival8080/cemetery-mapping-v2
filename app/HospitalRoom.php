@@ -24,7 +24,7 @@ class HospitalRoom extends Model
         return $this->belongsTo(Occupant::class);
     }
 
-    public function roomRequests()
+    public function roomRequest()
     {
         return $this->hasMany(RoomRequest::class);
     }

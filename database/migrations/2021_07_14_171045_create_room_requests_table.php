@@ -15,9 +15,9 @@ class CreateRoomRequestsTable extends Migration
     {
         Schema::create('room_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('hostpital_room_id');
+            $table->unsignedBigInteger('hospital_room_id');
+            $table->foreign('hospital_room_id')->references('id')->on('hospital_rooms')->onDelete('cascade');
             $table->unsignedBigInteger('occupant_id');
-            $table->foreign('hostpital_room_id')->references('id')->on('hospital_rooms')->onDelete('cascade');
             $table->foreign('occupant_id')->references('id')->on('occupants')->onDelete('cascade');
             $table->string('type');
             $table->string('status');
