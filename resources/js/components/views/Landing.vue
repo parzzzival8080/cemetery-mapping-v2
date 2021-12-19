@@ -180,7 +180,12 @@ export default {
 
         fetchHospitals() {
             axios
-                .get("/api/v1/nearbyhospitals")
+                .get("/api/v1/nearbyhospitals", {
+                    params: {
+                        lat: this.center.lat,
+                        lng: this.center.lng
+                    }
+                })
                 .then(response => {
                     this.histories = response.data;
                     let hospitals = response.data;

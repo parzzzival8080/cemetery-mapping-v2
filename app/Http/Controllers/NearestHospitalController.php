@@ -13,24 +13,26 @@ class NearestHospitalController extends Controller
 
 
 
-        // $latitude = $request->input('lat');
-        // $longitude = $request->input('lng');
+        $latitude = $request->input('lat');
+        $longitude = $request->input('lng');
 
-        $latitude = 0.0;
-        $longitude = 0.0;
+        // $latitude = 0.0;
+        // $longitude = 0.0;
 
         // dd($latitude);
         $radius = 3000;
-        $nearbyHospital = Hospital::select('hospitals.*',
-        DB::raw('((ACOS(SIN(' . $latitude . ' * PI() / 180) * SIN(latitude * PI() / 180) + COS(' . $latitude .
-        ' * PI() / 180) * COS(latitude * PI() / 180) * COS((' . $longitude . ' - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344 * 1000) AS distance'))
-                                                ->orderBy('distance')->having('distance', '<=', $radius)
-                                                ->get();
+        $nearbyHospital = Hospital::select(
+            'hospitals.*',
+            DB::raw('((ACOS(SIN(' . $latitude . ' * PI() / 180) * SIN(latitude * PI() / 180) + COS(' . $latitude .
+                ' * PI() / 180) * COS(latitude * PI() / 180) * COS((' . $longitude . ' - longitude) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344 * 1000) AS distance')
+        )
+            ->orderBy('distance')->having('distance', '<=', $radius)
+            ->get();
 
         return response()->json(
-                [
-                    'nearby' => $nearbyHospital
-                ]
+            [
+                'nearby' => $nearbyHospital
+            ]
         );
     }
 }
