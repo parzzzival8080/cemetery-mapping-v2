@@ -32,8 +32,8 @@ class StoreRoomRequestRequest extends FormRequest
                 'required',
                 'exists:hospitals,id',
             ],
-            'room_no' => 'string|required',
-            'status' => 'nullable'
+            'status' => 'nullable',
+            'type' => 'nullable',
         ];
     }
 }
