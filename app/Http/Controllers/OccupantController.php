@@ -45,13 +45,7 @@ class OccupantController extends Controller
      */
     public function store(StoreOccupantRequest $request)
     {
-        $user = User::create($request->validated());
         $occupant = Occupant::create(
-            array_merge(
-                [
-                    'user_id' => $user->id,
-                ]
-            ),
             $request->validated());
         return new OccupantResource($occupant);
     }

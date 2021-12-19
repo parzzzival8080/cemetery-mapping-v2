@@ -52,19 +52,8 @@ class UserTableSeeder extends Seeder
             'updated_at' => now()
         ]);
 
-        $userOccupant = \App\User::create([
-            'password' => 'occupant',
-            'username' => 'occupant',
-            'role' => 'OCCUPANT',
-
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-
         $occupant = \App\Occupant::create([
             'name' => 'Alfadzry Jumli',
-            'user_id' => $userHospital->id,
             'status' => 'COVID',
             'type' => 'ADMITTED',
             'number' => '09664375522',
