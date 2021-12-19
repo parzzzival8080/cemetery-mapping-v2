@@ -58,7 +58,7 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-dialog v-model="formOccupantDialog" max-width="500px" persistent>
+        <v-dialog v-model="formOccupantDialog" max-width="1000px" persistent>
             <v-card>
                 <v-overlay :value="componentOverlay">
                     <v-progress-circular
@@ -71,74 +71,88 @@
                     {{ formOccupantTitle }}
                 </v-card-title>
                 <v-card-text>
-                    <v-row justify="center">
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                type="text"
-                                :error-messages="formOccupantErrors.username"
-                                v-model="editedOccupantInformation.username"
-                                label="Occupant UserName"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                v-model="editedOccupantInformation.password"
-                                label="Password"
-                                id="password"
-                                name="password"
-                                prepend-icon="fa-lock"
-                                :append-icon="
-                                    visible ? 'mdi-eye-off' : 'mdi-eye'
-                                "
-                                @click:append="visible = !visible"
-                                :rules="rules.passwordRules"
-                                :type="visible ? 'text' : 'password'"
-                                @keydown.enter="login()"
-                            />
-                        </v-col>
-                    </v-row>
-                    <v-row justify="center">
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                type="text"
-                                :error-messages="formOccupantErrors.name"
-                                v-model="editedOccupantInformation.name"
-                                label="Name"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-text-field
-                                type="text"
-                                :error-messages="formOccupantErrors.number"
-                                v-model="editedOccupantInformation.number"
-                                label="Number"
-                            />
-                        </v-col>
-                    </v-row>
                     <v-row>
-                        <v-col cols="12">
-                            <v-text-field
-                                type="text"
-                                :error-messages="formOccupantErrors.address"
-                                v-model="editedOccupantInformation.address"
-                                label="Address"
-                            />
+                        <v-col cols="12" md="6">
+                            <v-row justify="center">
+                                <v-col cols="12" md="6">
+                                    <v-text-field
+                                        type="text"
+                                        :error-messages="
+                                            formOccupantErrors.name
+                                        "
+                                        v-model="editedOccupantInformation.name"
+                                        label="Name"
+                                    />
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <v-text-field
+                                        type="text"
+                                        :error-messages="
+                                            formOccupantErrors.number
+                                        "
+                                        v-model="
+                                            editedOccupantInformation.number
+                                        "
+                                        label="Number"
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row justify="center">
+                                <v-col cols="12" md="6">
+                                    <v-select
+                                        :items="statuses"
+                                        :error-messages="
+                                            formOccupantErrors.status
+                                        "
+                                        v-model="
+                                            editedOccupantInformation.status
+                                        "
+                                        label="Status"
+                                    />
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <v-select
+                                        :items="types"
+                                        :error-messages="
+                                            formOccupantErrors.type
+                                        "
+                                        v-model="editedOccupantInformation.type"
+                                        label="Type"
+                                    />
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field
+                                        type="text"
+                                        :error-messages="
+                                            formOccupantErrors.address
+                                        "
+                                        v-model="
+                                            editedOccupantInformation.address
+                                        "
+                                        label="Address"
+                                    />
+                                </v-col>
+                            </v-row>
                         </v-col>
-                    </v-row>
-                    <v-row
-                        ><v-col cols="12">
-                            <GmapMap
-                                style="width: 100%; height: 400px;"
-                                :zoom="25"
-                                :center="center"
-                            >
-                                <GmapMarker
-                                    @drag="changed"
-                                    label="★"
-                                    :draggable="true"
-                                    :position="address"
-                                /> </GmapMap
-                        ></v-col>
+                        <v-col cols="12" md="6">
+                            <v-row
+                                ><v-col cols="12">
+                                    <GmapMap
+                                        style="width: 100%; height: 400px;"
+                                        :zoom="25"
+                                        :center="center"
+                                    >
+                                        <GmapMarker
+                                            @drag="changed"
+                                            label="★"
+                                            :draggable="true"
+                                            :position="address"
+                                        /> </GmapMap
+                                ></v-col>
+                            </v-row>
+                        </v-col>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
@@ -169,6 +183,8 @@ export default {
             tableOccupants: [],
             formOccupantDialog: false,
             formOccupantListDialog: false,
+            statuses: ["ADMITTED", "DISCHARGED"],
+            types: ["COVID", "NON_COVID"],
 
             formOccupantErrors: {
                 name: null,

@@ -82,18 +82,6 @@
                 >
                     <span class="mr-2">LOG-IN</span>
                 </v-btn>
-                <v-btn
-                    :ripple="false"
-                    id="no-background-hover"
-                    text
-                    to="/register"
-                >
-                    <span
-                        class="'white--text mr-2 '
-                        "
-                        >REGISTER
-                    </span>
-                </v-btn>
             </div>
         </v-app-bar>
     </div>
