@@ -26,7 +26,7 @@ class UpdateHospitalRequest extends FormRequest
         return [
             'username' => 'sometimes',
             'password' => 'sometimes|min:8',
-            'role' => 'HOSPITAL',
+            // 'role' => 'HOSPITAL',
 
             'name' => 'required|min:8',
             'number' => 'required|min:8',
