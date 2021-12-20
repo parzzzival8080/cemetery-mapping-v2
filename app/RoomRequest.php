@@ -19,7 +19,7 @@ class RoomRequest extends Model
    {
        return $this->belongsTo(Occupant::class);
    }
-   public function hospital_room()
+   public function hospitalRooms()
    {
        return $this->belongsTo(HospitalRoom::class);
    }

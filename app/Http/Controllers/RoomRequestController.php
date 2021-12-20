@@ -32,10 +32,11 @@ class RoomRequestController extends Controller
         }
         elseif($authenticatedUser->role == 'HOSPITAL')
         {
-            $hospital = Hospital::findOrFail($authenticatedUser->id);
+            $hospital = Hospital::where('user_id', $authenticatedUser->id)->first();
+            // dd($hospital->id);
+            $occupiedRoom = $hospital->hospitalRooms->load("roomRequests");
+            dd($occupiedRoom);
 
-            $occupiedRooms = $hospital->rooms->roomRequest;
-            return $occupiedRooms;
         }
 
     }

@@ -11,7 +11,7 @@ class HospitalRoom extends Model
     ];
 
     protected $hidden = [
-        'hospital_id', 'created_at', 'updated_at'
+        'created_at', 'updated_at'
     ];
 
     public function hospital()
@@ -24,7 +24,7 @@ class HospitalRoom extends Model
         return $this->belongsTo(Occupant::class);
     }
 
-    public function roomRequest()
+    public function roomRequests()
     {
         return $this->hasMany(RoomRequest::class);
     }
