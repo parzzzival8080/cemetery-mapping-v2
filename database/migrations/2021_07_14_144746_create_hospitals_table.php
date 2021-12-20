@@ -20,8 +20,8 @@ class CreateHospitalsTable extends Migration
             $table->string('address');
             $table->string('number');
             $table->string('status');
-            $table->double('latitude', 10, 7)->default(15.0594);
-            $table->double('longitude', 10, 7)->default(120.6567);
+            $table->double('latitude', 10, 2);
+            $table->double('longitude', 10, 2);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
