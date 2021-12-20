@@ -98,22 +98,28 @@
                     <v-container>
                         <v-row>
                             <v-col>Name:</v-col>
-                            <v-col class="text-left">{{
-                                this.hospital.lat
-                            }}</v-col>
+                            <v-col class="text-left">{{ hospital.name }}</v-col>
                         </v-row>
                         <v-row>
                             <v-col>Address:</v-col>
                             <v-col class="text-left">{{
-                                this.hospital.lng
+                                hospital.address
                             }}</v-col>
                         </v-row>
-                        <!-- <v-row>
+                        <v-row>
                             <v-col>Contact:</v-col>
                             <v-col class="text-left">{{
-                                this.driver.contact_number
+                                hospital.number
                             }}</v-col>
-                        </v-row> -->
+                        </v-row>
+                        <v-row>
+                            <v-col>Status:</v-col>
+                            <v-col class="text-left"
+                                ><v-chip :color="chipColor(hospital.status)">{{
+                                    hospital.status
+                                }}</v-chip></v-col
+                            >
+                        </v-row>
                     </v-container>
                 </v-card-text>
             </v-card>
@@ -179,6 +185,7 @@ export default {
         },
 
         fetchHospitals() {
+            this.hospitalsLatLng = [];
             axios
                 .get("/api/v1/nearbyhospitals", {
                     params: {
@@ -187,9 +194,17 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.histories = response.data;
-                    let hospitals = response.data;
-                    console.log(hospitals);
+                    this.hospitals = response.data.nearby;
+                    let hospitals = response.data.nearby;
+                    hospitals.forEach(hospital => {
+                        var position = {
+                            ...hospital,
+                            lat: hospital.latitude,
+                            lng: hospital.longitude
+                        };
+                        this.hospitalsLatLng.push(position);
+                    });
+                    console.log(this.hospitalsLatLng);
                 })
                 .catch(error => {
                     console.log(error);
@@ -201,9 +216,9 @@ export default {
         },
 
         showHospital(id) {
-            this.hospitalDialog = true;
-            this.driverDetailsDialog = true;
             this.hospital = this.hospitals.find(x => x.id === id);
+            console.log(this.hospital);
+            this.hospitalDialog = true;
         },
 
         //Get Address to current location
@@ -227,6 +242,14 @@ export default {
                 lng: UserGeolocationLongitude
             };
             this.address = this.center;
+        },
+
+        chipColor(status) {
+            if (status == "RECIEVING") {
+                return "success";
+            } else {
+                return "red";
+            }
         }
     },
 

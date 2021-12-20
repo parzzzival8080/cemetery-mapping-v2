@@ -136,23 +136,6 @@
                                 </v-col>
                             </v-row>
                         </v-col>
-                        <v-col cols="12" md="6">
-                            <v-row
-                                ><v-col cols="12">
-                                    <GmapMap
-                                        style="width: 100%; height: 400px;"
-                                        :zoom="25"
-                                        :center="center"
-                                    >
-                                        <GmapMarker
-                                            @drag="changed"
-                                            label="★"
-                                            :draggable="true"
-                                            :position="address"
-                                        /> </GmapMap
-                                ></v-col>
-                            </v-row>
-                        </v-col>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
@@ -421,35 +404,6 @@ export default {
                 );
                 this.editedOccupantIndex = -1;
             }, 500);
-        },
-
-        //trigger everytime marker is drag
-        changed(position) {
-            this.editedOccupantInformation.latitude = position.latLng.lat();
-            this.editedOccupantInformation.longitude = position.latLng.lng();
-        },
-
-        //Get Address to current location
-        getOccupantGeolocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    this.setOccupantGeolocation
-                );
-            } else {
-                window.clearInterval(window.locationInterval);
-                alert("Geolocation is not supported by this browser.");
-            }
-        },
-
-        //Set Address to current location
-        setOccupantGeolocation(position) {
-            var OccupantGeolocationLatitude = position.coords.latitude;
-            var OccupantGeolocationLongitude = position.coords.longitude;
-            this.center = {
-                lat: OccupantGeolocationLatitude,
-                lng: OccupantGeolocationLongitude
-            };
-            this.address = this.center;
         }
     }
 };

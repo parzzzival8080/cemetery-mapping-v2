@@ -38,8 +38,8 @@ class UserTableSeeder extends Seeder
             'user_id' => $userHospital->id,
             'address' => 'Pasonanca, Zamboanga City',
             'status' => 'RECIEVING',
-            'longitude' => 0,
-            'latitude' => 0,
+            'longitude' => 122.079,
+            'latitude' => 6.9214,
             'created_at' => now(),
             'updated_at' => now()
         ]);

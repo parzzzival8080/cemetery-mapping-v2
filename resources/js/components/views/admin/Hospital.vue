@@ -75,14 +75,20 @@
                         <v-col cols="12" md="6">
                             <v-text-field
                                 type="text"
-                                :error-messages="formHospitalErrors.username"
-                                v-model="editedHospitalInformation.username"
+                                :error-messages="
+                                    formHospitalErrors.user.username
+                                "
+                                v-model="
+                                    editedHospitalInformation.user.username
+                                "
                                 label="Username"
                             />
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-text-field
-                                v-model="editedHospitalInformation.password"
+                                v-model="
+                                    editedHospitalInformation.user.password
+                                "
                                 label="Password"
                                 id="password"
                                 name="password"
@@ -181,6 +187,7 @@ export default {
                 name: null,
                 address: null,
                 number: null,
+                user: { username: null, password: null },
                 lat: 6.9214,
                 lng: 122.079
             },
@@ -203,6 +210,15 @@ export default {
                 name: null,
                 address: null,
                 number: null,
+                user: { username: null, password: null },
+                latitude: 6.9214,
+                longitude: 122.079
+            },
+            defaultHospitalInformation: {
+                name: null,
+                address: null,
+                number: null,
+                user: { username: null, password: null },
                 latitude: 6.9214,
                 longitude: 122.079
             },
@@ -289,7 +305,10 @@ export default {
         createHospital() {
             axios
                 .post("/api/v1/hospitals", {
-                    ...this.editedHospitalInformation
+                    ..._.omit(this.editedHospitalInformation, "user"),
+                    ...this.editedHospitalInformation.user,
+                    password_confirmation: this.editedHospitalInformation.user
+                        .password
                 })
                 .then(response => {
                     this.fetchHospitals();
@@ -317,6 +336,11 @@ export default {
         },
 
         editHospital(hospital) {
+            this.address = this.center = {
+                lat: hospital.latitude,
+                lng: hospital.longitude
+            };
+
             this.editedHospitalIndex = this.tableHospitals.indexOf(hospital);
             this.editedHospitalInformation = Object.assign({}, hospital);
             this.formHospitalDialog = true;
@@ -325,7 +349,10 @@ export default {
         updateHospital() {
             axios
                 .put("/api/v1/hospitals/" + this.editedHospitalInformation.id, {
-                    ...this.editedHospitalInformation
+                    ..._.omit(this.editedHospitalInformation, "user"),
+                    ...this.editedHospitalInformation.user,
+                    password_confirmation: this.editedHospitalInformation.user
+                        .password
                 })
                 .then(response => {
                     this.fetchHospitals();
@@ -404,7 +431,8 @@ export default {
             this.deleteDialog = false;
             setTimeout(() => {
                 this.formHospitalErrors = {
-                    name: null
+                    name: null,
+                    user: { username: null, password: null }
                 };
                 this.editedHospitalInformation = Object.assign(
                     {},

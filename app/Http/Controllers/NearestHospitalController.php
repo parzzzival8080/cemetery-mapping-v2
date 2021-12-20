@@ -13,13 +13,13 @@ class NearestHospitalController extends Controller
 
 
 
-        $latitude = $request->input('lat');
-        $longitude = $request->input('lng');
+        // $latitude = $request->input('lat');
+        // $longitude = $request->input('lng');
 
-        // $latitude = 0.0;
-        // $longitude = 0.0;
+        $latitude = 6.9214;
+        $longitude = 122.079;
 
-        // dd($latitude);
+        // dd($latitude, $longitude);
         $radius = 3000;
         $nearbyHospital = Hospital::select(
             'hospitals.*',
