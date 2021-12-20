@@ -24,8 +24,8 @@ class UpdateHospitalRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required',
-            'password' => 'required|min:8',
+            'username' => 'sometimes',
+            'password' => 'sometimes|min:8',
             'role' => 'HOSPITAL',
 
             'name' => 'required|min:8',
