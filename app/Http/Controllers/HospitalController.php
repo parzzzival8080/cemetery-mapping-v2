@@ -23,7 +23,7 @@ class HospitalController extends Controller
     public function index(IndexHospitalRequest $request)
     {
         //
-        $hospital = Hospital::all();
+        $hospital = Hospital::with('user')->get();
 
         return HospitalResource::collection($hospital);
 
