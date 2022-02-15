@@ -54,7 +54,7 @@
             </section>
             <!-- End Hero -->
             <!-- ======= Hero Section ======= -->
-            <section class="search-section" id="search">
+            <section class="search-section" id="search" v-if="userId">
                 <v-container>
                     <v-row justify="center">
                         <v-col cols="12">
@@ -148,6 +148,7 @@ export default {
     data() {
         return {
             fab: null,
+            userId: sessionStorage.getItem("user-id"),
             color: "",
             flat: null,
             hospital: { id: 1025167, lat: 6.9214, lng: 122.075 },
@@ -277,13 +278,13 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        if (sessionStorage.getItem("user-type")) {
-            if (sessionStorage.getItem("user-type") == "ADMINISTRATOR") {
-                return next("admin/dashboard");
-            } else if (sessionStorage.getItem("user-type") == "SUBSCRIBER") {
-                return next("/dashboard");
-            }
-        }
+        // if (sessionStorage.getItem("user-type")) {
+        //     if (sessionStorage.getItem("user-type") == "ADMINISTRATOR") {
+        //         return next("admin/dashboard");
+        //     } else if (sessionStorage.getItem("user-type") == "SUBSCRIBER") {
+        //         return next("/dashboard");
+        //     }
+        // }
         next();
     }
 };

@@ -78,9 +78,19 @@
                     :ripple="false"
                     id="no-background-hover"
                     text
+                    v-if="!userId"
                     to="/login"
                 >
                     <span class="mr-2">LOG-IN</span>
+                </v-btn>
+                <v-btn
+                    :ripple="false"
+                    id="no-background-hover"
+                    text
+                    v-if="!userId"
+                    to="/register"
+                >
+                    <span class="mr-2">REGISTER</span>
                 </v-btn>
             </div>
         </v-app-bar>
@@ -136,11 +146,14 @@ export default {
         return {
             drawer: null,
             isXs: false,
-            items: [
-                ["mdi-home-outline", "Home", "/#hero"],
-                ["mdi-login", "Login", "/login"],
-                ["mdi-account-plus", "Register", "/register"]
-            ]
+            items: sessionStorage.getItem("user-id")
+                ? ["mdi-home-outline", "Home", "/#hero"]
+                : [
+                      ["mdi-home-outline", "Home", "/#hero"],
+                      ["mdi-login", "Login", "/login"],
+                      ["mdi-account-plus", "Register", "/register"]
+                  ],
+            userId: sessionStorage.getItem("user-id")
         };
     },
     props: {

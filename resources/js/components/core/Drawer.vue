@@ -75,7 +75,7 @@ export default {
             {
                 to: "/admin/users",
                 icon: "mdi-account-circle",
-                text: "Users",
+                text: "Occupants",
                 module: "adminUser"
             },
             {
@@ -100,7 +100,7 @@ export default {
             {
                 to: "/hospital/users",
                 icon: "mdi-account-circle",
-                text: "Users",
+                text: "Occupants",
                 module: "hospitalUser"
             },
             {
