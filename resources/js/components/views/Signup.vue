@@ -66,7 +66,7 @@
                                                                     formSignUpError.address
                                                                 "
                                                                 v-model="
-                                                                    address
+                                                                    user.address
                                                                 "
                                                                 label="Address"
                                                             />
@@ -243,7 +243,7 @@ export default {
                     .then(response => {
                         axios
                             .post("/api/v1/login", {
-                                email: this.user.email,
+                                username: this.user.username,
                                 password: this.user.password
                             })
                             .then(response => {

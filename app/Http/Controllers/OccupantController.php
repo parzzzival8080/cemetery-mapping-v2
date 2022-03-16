@@ -45,8 +45,12 @@ class OccupantController extends Controller
      */
     public function store(StoreOccupantRequest $request)
     {
+
+        $user = User::create(array_merge($request->validated(), ['role' => 'OCCUPANT']));
+    dd($user);
         $occupant = Occupant::create(
-            $request->validated());
+            $request->validated()
+        );
         return new OccupantResource($occupant);
     }
 

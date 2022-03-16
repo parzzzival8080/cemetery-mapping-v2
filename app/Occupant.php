@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Occupant extends Model
 {
     protected $fillable = [
-         'name', 'type', 'status', 'address', 'number'
+        'user_id', 'name', 'type', 'status', 'address', 'number'
     ];
 
     protected $hidden = [
      'created_at', 'updated_at'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function room()
     {
