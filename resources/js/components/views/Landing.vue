@@ -3,7 +3,7 @@
         <views-navigation :color="color" :flat="flat" />
         <div>
             <!-- ======= Hero Section ======= -->
-            <section class="hero-section" id="hero">
+            <section class="hero-section" id="hero" v-if="!userId">
                 <v-container>
                     <v-row justify="center" class="align-items-center">
                         <v-col cols="12" xl="8" class="hero-text-image">
@@ -54,7 +54,7 @@
             </section>
             <!-- End Hero -->
             <!-- ======= Hero Section ======= -->
-            <section class="search-section" id="search" v-if="userId">
+            <section class="search-section" id="search" v-else>
                 <v-container>
                     <v-row justify="center">
                         <v-col cols="12">

@@ -47,9 +47,8 @@ class OccupantController extends Controller
     {
 
         $user = User::create(array_merge($request->validated(), ['role' => 'OCCUPANT']));
-    dd($user);
         $occupant = Occupant::create(
-            $request->validated()
+            array_merge($request->validated(), ['user_id' => $user->id])
         );
         return new OccupantResource($occupant);
     }

@@ -46,9 +46,22 @@
                 'px-15': $vuetify.breakpoint.mdAndUp
             }"
         >
-            <v-toolbar-title class="primary--text">
+            <v-toolbar-title v-if="!userId" class="primary--text">
                 HOSPITAL TRACKER
             </v-toolbar-title>
+            <v-toolbar-title v-else class="primary--text">
+                Hi {{ occupant.name }}!
+            </v-toolbar-title>
+            <v-spacer />
+            <span
+                v-if="userId"
+                :class="{
+                    'primary--text': occupant.status == 'NON_COVID',
+                    'error--text': occupant.status == 'COVID'
+                }"
+            >
+                Status: {{ occupant.status }}</span
+            >
             <v-spacer />
             <v-app-bar-nav-icon
                 @click.stop="drawer = !drawer"
@@ -65,6 +78,7 @@
                 >
                     <span class="mr-2">HOME</span>
                 </v-btn>
+
                 <v-btn
                     :ripple="false"
                     id="no-background-hover"
@@ -73,6 +87,16 @@
                     to="/"
                 >
                     <span class="mr-2">HOME</span>
+                </v-btn>
+
+                <v-btn
+                    :ripple="false"
+                    id="no-background-hover"
+                    v-if="userId"
+                    text
+                    @click="logout()"
+                >
+                    <span class="mr-2">LOGOUT</span>
                 </v-btn>
                 <v-btn
                     :ripple="false"
@@ -153,16 +177,40 @@ export default {
                       ["mdi-login", "Login", "/login"],
                       ["mdi-account-plus", "Register", "/register"]
                   ],
-            userId: sessionStorage.getItem("user-id")
+            userId: sessionStorage.getItem("user-id"),
+            occupant: {
+                name: sessionStorage.getItem("occupant-name"),
+                status: sessionStorage.getItem("occupant-status")
+            }
         };
     },
+
     props: {
         color: String,
         flat: Boolean
     },
+
     methods: {
         onResize() {
             this.isXs = window.innerWidth < 850;
+        },
+        logout() {
+            axios
+                .get("/api/v1/logout")
+                .then(response => {
+                    if (response.data.errors) {
+                        this.error = response.data.errors;
+                        return;
+                    }
+                    sessionStorage.clear();
+                    this.$router.push("/login");
+                })
+                .catch(error => {
+                    if (error.response.data.message == "Unauthenticated.") {
+                        sessionStorage.clear();
+                        this.$router.push("/login");
+                    }
+                });
         }
     },
 

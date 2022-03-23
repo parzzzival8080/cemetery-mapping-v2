@@ -252,10 +252,9 @@ export default {
                                     return;
                                 }
                                 let token = response.data.token;
-                                let user_id = response.data.id;
-                                let profile_id = response.data.profile_id;
-                                let profile_role = response.data.profile_role;
-                                let user_type = response.data.role;
+                                let user_id = response.data.user.id;
+                                let profile_id = response.data.occupant.id;
+                                let user_type = response.data.user.role;
 
                                 // Create a local storage item
                                 sessionStorage.setItem("user-token", token);
@@ -265,22 +264,19 @@ export default {
                                     "profile-id",
                                     profile_id
                                 );
-                                sessionStorage.setItem(
-                                    "profile-role",
-                                    profile_role
-                                );
-
-                                // Echo.connector.pusher.config.auth.headers[
-                                //     "Authorization"
-                                // ] = "Bearer " + token;
-
-                                // console.log(
-                                //     Echo.connector.pusher.config.auth.headers[
-                                //         "Authorization"
-                                //     ]
-                                // );
 
                                 // Redirect user
+                                if (user_type == "OCCUPANT") {
+                                    sessionStorage.setItem(
+                                        "occupant-name",
+                                        response.data.occupant.name
+                                    );
+                                    sessionStorage.setItem(
+                                        "occupant-status",
+                                        response.data.occupant.status
+                                    );
+                                    this.$router.push("/");
+                                }
 
                                 swal.fire({
                                     position: "top-end",
@@ -313,7 +309,7 @@ export default {
                                 }
                             })
                             .finally(x => {
-                                this.$router.push("/dashboard");
+                                this.loading = false;
                             });
                     })
                     .catch(error => {

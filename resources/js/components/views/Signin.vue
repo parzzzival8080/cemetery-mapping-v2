@@ -190,14 +190,20 @@ export default {
                                 response.data.hospital.id
                             );
                             this.$router.push("hospital/rooms");
+                        } else if (user_type == "OCCUPANT") {
+                            sessionStorage.setItem(
+                                "occupant-name",
+                                response.data.occupant.name
+                            );
+                            sessionStorage.setItem(
+                                "occupant-status",
+                                response.data.occupant.status
+                            );
+                            this.$router.push("/");
                         }
-                        // else if (user_type == "OCCUPANT") {
-                        //     this.$router.push("/dashboard");
-                        // }
                         swal.fire({
                             position: "top-end",
                             toast: true,
-                            type: "success",
                             icon: "success",
                             text: "Successfully Logined",
                             showConfirmButton: false,
@@ -263,7 +269,7 @@ export default {
             } else if (sessionStorage.getItem("user-type") == "HOSPITAL") {
                 return next("hospital/rooms");
             } else if (sessionStorage.getItem("user-type") == "OCCUPANT") {
-                return next("/dashboard");
+                return next("/");
             }
         }
         next();
